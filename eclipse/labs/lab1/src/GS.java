@@ -1,15 +1,14 @@
 /*
-Implementation of the Gale-Shapley algorithm.
-*/import java.io.File;
+	Implementation of the Gale-Shapley algorithm.
+	Authors: Andres Saemundsson & Anton Friberg
+*/
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-
 public class GS {
-
-	static boolean DEBUG = false;
 	
 	ArrayList<Integer>[] menPref;
 	ArrayList<Integer>[] womenPref;
@@ -49,7 +48,6 @@ public class GS {
         
         freeMen = new LinkedList();
         
-
         for (int i = 1; i <= 2*n; i+=2) {
         	menPref[i] = new ArrayList<Integer>();
         	womenPref[i+1] = new ArrayList<Integer>();
@@ -83,27 +81,6 @@ public class GS {
         }
 
         input.close();
-
-
-        if (DEBUG) {
-	        // Print out the inputs
-	    	System.out.println("\nNames:");
-	        for (int i = 0; i < 2*n; i++) {
-	        	System.out.println(names[i]);
-	        }
-	    	System.out.println("\nMen:");
-	        for (int i = 1; i < 2*n+1; i+=2) {
-	        	System.out.println(menPref[i]);
-	        }
-	    	System.out.println("\nWomen:");
-	        for (int i = 2; i < 2*n+1; i+=2) {
-	        	System.out.println(womenPref[i]);
-	        }
-	    	System.out.println("\nFree Men:");
-	        for (int f : freeMen) {
-	        	System.out.println(f);
-	        }
-        }
 	}
 	
 	/**
@@ -143,15 +120,6 @@ public class GS {
 			}
 			next[m]++;
 		}
-		
-		if (DEBUG) {
-	    	System.out.println("\nCurrent:");
-	        for (int c : proposed) {
-	        	System.out.println(c);
-	        }
-		}
-        
-        
 	}
 
 	/**
