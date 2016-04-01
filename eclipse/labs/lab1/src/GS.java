@@ -16,46 +16,38 @@ public class GS {
 	String[] names;
 	LinkedList<Integer> freeMen;
 	int[] next;
-	int[] current;
+	int[] proposed;
 	int[] partner;
 	int n;
 	
-	
+	/**
+	 * Creates and initializes a GS object that can then be used to run
+	 * the Gale-Shapley/Stable marriage algorithm on.
+	 * @param input is a file with the format laid out in the lab description
+	 */
 	public GS(Scanner input) {
 
         // The first zero or more lines start with “#” and are ignored.
-        while (input.hasNext("#[.]") || input.hasNext("#")) {
-        	//System.out.println("debug: " + input.nextLine());
-        	input.nextLine();
-        }
-//
-//        System.out.println(input.nextLine());
-//		int k = 0;
-//		String line;
-//		String[] array = new String[2048];
-//		while (input.hasNextLine()) {
-//			line = input.nextLine(); 
-//			if (!line.startsWith("#")) {
-//				array[k] = line;
-//				System.out.println(array[k]);
-//				k++;
-//			}
-//		}
-
-        
-        // Then comes a line of the form “n=int” defining n.
-        input = input.skip("n=");
-        n = input.nextInt();
-        input.nextLine();
-
+		String line = input.nextLine();
+		while (line.contains("#")){
+			line = input.nextLine();
+		}
+		
+		// Then comes a line of the form “n=int” defining n.
+		n = Integer.parseInt(line.replaceAll("[\\D]", ""));
+ 
         // The following 2n lines describe m1, w1, … mn, wn.
-        names = new String[2*n];
-        menPref = new ArrayList[2*n+1]; // 2n+1 elements, since we shift arrays "up one"
+        // We've decided to make the arrays contain NULL elements, for easier
+        // indexing. So for example menPref are saved [null, m1, null, m2...]
+        names = new String[2*n];			
+        menPref = new ArrayList[2*n+1];		
         womenPref = new ArrayList[2*n+1];
-        freeMen = new LinkedList();
+        
         next = new int[2*n];
-        current = new int[2*n+1];
+        proposed = new int[2*n+1];
         partner = new int[2*n+1];
+        
+        freeMen = new LinkedList();
         
 
         for (int i = 1; i <= 2*n; i+=2) {
@@ -70,12 +62,8 @@ public class GS {
 
         for (int i = 0; i < 2*n; i++) {
         	names[i] = input.nextLine().split(" ")[1];
-        	//System.out.println(names[i]);
-        }
-        
-        for (int i = 1; i <= 2*n; i++){
-        	current[i] = -1;
-        	partner[i] = 0;
+        	proposed[i+1] = -1;
+        	partner[i+1] = 0;
         }
 
         // Blank line
@@ -118,6 +106,11 @@ public class GS {
         }
 	}
 	
+	/**
+	 * Prints the results of the Gale-Shapley algorithm.
+	 * @pre: Requires that run() has been executed beforehand.
+	 * @post: Results printed to System.out
+	 */
 	public void print(){
 		for (int man = 1; man < 2*n; man+=2) {
 			int woman = partner[man];
@@ -125,24 +118,26 @@ public class GS {
 		}
 	}
 
+	/**
+	 * Runs the Gale-Shapley/Stable marriage algorithm on the data found in
+	 * the GS object 
+	 */
 	public void run() {
-		// do the algorithm here
 		while (!freeMen.isEmpty()) {
 			int m = freeMen.get(0);
-
 			int w = menPref[m].get(next[m]);
 			
-			if (current[w] == -1) {
-				current[w] = m;
+			if (proposed[w] == -1) {	// w has not been proposed to
+				proposed[w] = m;		// (m, w) are now married
 				partner[m] = w;
 				freeMen.remove(0);
 			} else {
-				if (womenPref[w].indexOf(m) > womenPref[w].indexOf(current[w]) && current[w] >= 0) {
-
-				} else {
+				if (womenPref[w].indexOf(m) < womenPref[w].indexOf(proposed[w])) {
+					// w prefers m to her old man m'
+					// (m, w) get married and m' is now free
 					freeMen.remove(0);
-					freeMen.addFirst(current[w]);					
-					current[w] = m;
+					freeMen.addFirst(proposed[w]);					
+					proposed[w] = m;
 					partner[m] = w;
 				}
 			}
@@ -151,7 +146,7 @@ public class GS {
 		
 		if (DEBUG) {
 	    	System.out.println("\nCurrent:");
-	        for (int c : current) {
+	        for (int c : proposed) {
 	        	System.out.println(c);
 	        }
 		}
@@ -159,12 +154,15 @@ public class GS {
         
 	}
 
-
+	/**
+	 * Runs the Gale-Shapley/Stable marriage algorithm on an input file
+	 * @param args file to be parsed for the GS algorithm
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		GS gs;
 
 	    try {
-	        //Scanner input = new Scanner(System.in);
 	        Scanner input = new Scanner(new File(args[0]));
 	        gs = new GS(input);
 		    gs.run();
@@ -172,7 +170,5 @@ public class GS {
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	    }
-	    
-	    
 	}
 }
