@@ -1,6 +1,5 @@
-/*
-	Implementation of the Gale-Shapley algorithm.
-	Authors: Andres Saemundsson & Anton Friberg
+/*git
+Implementation of the Gale-Shapley algorithm.
 */
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +7,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+
 public class GS {
-	
+
+	static boolean DEBUG = false;
+
 	ArrayList<Integer>[] menPref;
 	ArrayList<Integer>[] womenPref;
 	String[] names;
@@ -18,7 +20,7 @@ public class GS {
 	int[] proposed;
 	int[] partner;
 	int n;
-	
+
 	/**
 	 * Creates and initializes a GS object that can then be used to run
 	 * the Gale-Shapley/Stable marriage algorithm on.
@@ -31,23 +33,24 @@ public class GS {
 		while (line.contains("#")){
 			line = input.nextLine();
 		}
-		
+
 		// Then comes a line of the form “n=int” defining n.
 		n = Integer.parseInt(line.replaceAll("[\\D]", ""));
- 
+
         // The following 2n lines describe m1, w1, … mn, wn.
         // We've decided to make the arrays contain NULL elements, for easier
         // indexing. So for example menPref are saved [null, m1, null, m2...]
-        names = new String[2*n];			
-        menPref = new ArrayList[2*n+1];		
+        names = new String[2*n];
+        menPref = new ArrayList[2*n+1];
         womenPref = new ArrayList[2*n+1];
-        
+
         next = new int[2*n];
         proposed = new int[2*n+1];
         partner = new int[2*n+1];
-        
+
         freeMen = new LinkedList();
-        
+
+
         for (int i = 1; i <= 2*n; i+=2) {
         	menPref[i] = new ArrayList<Integer>();
         	womenPref[i+1] = new ArrayList<Integer>();
@@ -81,8 +84,29 @@ public class GS {
         }
 
         input.close();
+
+
+        if (DEBUG) {
+	        // Print out the inputs
+	    	System.out.println("\nNames:");
+	        for (int i = 0; i < 2*n; i++) {
+	        	System.out.println(names[i]);
+	        }
+	    	System.out.println("\nMen:");
+	        for (int i = 1; i < 2*n+1; i+=2) {
+	        	System.out.println(menPref[i]);
+	        }
+	    	System.out.println("\nWomen:");
+	        for (int i = 2; i < 2*n+1; i+=2) {
+	        	System.out.println(womenPref[i]);
+	        }
+	    	System.out.println("\nFree Men:");
+	        for (int f : freeMen) {
+	        	System.out.println(f);
+	        }
+        }
 	}
-	
+
 	/**
 	 * Prints the results of the Gale-Shapley algorithm.
 	 * @pre: Requires that run() has been executed beforehand.
@@ -97,13 +121,13 @@ public class GS {
 
 	/**
 	 * Runs the Gale-Shapley/Stable marriage algorithm on the data found in
-	 * the GS object 
+	 * the GS object
 	 */
 	public void run() {
 		while (!freeMen.isEmpty()) {
 			int m = freeMen.get(0);
 			int w = menPref[m].get(next[m]);
-			
+
 			if (proposed[w] == -1) {	// w has not been proposed to
 				proposed[w] = m;		// (m, w) are now married
 				partner[m] = w;
@@ -113,13 +137,22 @@ public class GS {
 					// w prefers m to her old man m'
 					// (m, w) get married and m' is now free
 					freeMen.remove(0);
-					freeMen.addFirst(proposed[w]);					
+					freeMen.addFirst(proposed[w]);
 					proposed[w] = m;
 					partner[m] = w;
 				}
 			}
 			next[m]++;
 		}
+
+		if (DEBUG) {
+	    	System.out.println("\nCurrent:");
+	        for (int c : proposed) {
+	        	System.out.println(c);
+	        }
+		}
+
+
 	}
 
 	/**
