@@ -20,6 +20,8 @@ public class GS {
 	int[] proposed;
 	int[] partner;
 	int n;
+	int[][] ranking;
+	
 
 	/**
 	 * Creates and initializes a GS object that can then be used to run
@@ -55,6 +57,7 @@ public class GS {
         	menPref[i] = new ArrayList<Integer>();
         	womenPref[i+1] = new ArrayList<Integer>();
         }
+        
 
         for (int i = 0; i < n; i++) {
         	freeMen.addLast(i*2 + 1);
@@ -73,6 +76,7 @@ public class GS {
         // Finally, there is a line for every id (in order) that describes a
         // preference list. The line starts with id, followed by a colon and a
         // single space.
+		ranking = new int[n][n];
         for (int i = 1; i < 2*n+1; i+=2) {
         	String[] manP = input.nextLine().split(" ");
         	String[] womanP = input.nextLine().split(" ");
@@ -82,6 +86,17 @@ public class GS {
         		womenPref[i+1].add(Integer.parseInt(womanP[j+1]));
         	}
         }
+        
+		int g = 2;
+		for(int i = 0; i < n; i++){
+
+			int b = 1;
+			for(int j = 0; j < n; j++){
+				ranking[i][j] = womenPref[g].indexOf(b);
+				b+=2;
+			}
+			g+=2;
+		}
 
         input.close();
 
@@ -133,7 +148,8 @@ public class GS {
 				partner[m] = w;
 				freeMen.remove(0);
 			} else {
-				if (womenPref[w].indexOf(m) < womenPref[w].indexOf(proposed[w])) {
+				//if (womenPref[w].indexOf(m) < womenPref[w].indexOf(proposed[w])) {
+				if (ranking[w / 2 - 1][(m - 1) / 2] < ranking[w / 2 - 1][(proposed[w] - 1) / 2]) {
 					// w prefers m to her old man m'
 					// (m, w) get married and m' is now free
 					freeMen.remove(0);
