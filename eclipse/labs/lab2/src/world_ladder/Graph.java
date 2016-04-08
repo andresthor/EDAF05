@@ -6,8 +6,6 @@ package world_ladder;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import sun.security.provider.certpath.Vertex;
-
 /**  
  * Initializes a graph from an input stream.
  * The format is the number of vertices V,
@@ -31,6 +29,8 @@ public class Graph {
 		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
+		Vertex x = new Vertex("Test");
+		
 	}
 	
 	/*
@@ -89,7 +89,6 @@ public class Graph {
 		if ((w = getVertex(to)) == null)
 			w = addVertex(to);
 		neighbors.get(v).add(w);
-		neighbors.get(w).add(v);
 
 	}
 	/**
@@ -124,6 +123,7 @@ public class Graph {
 			}
 			s += "\n";
 		}
+		
 		return s;
 	}	
 	

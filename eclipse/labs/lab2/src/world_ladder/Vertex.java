@@ -20,8 +20,7 @@ public class Vertex implements Comparable<Vertex>{
 	 */
 	public static final int INFINITY = Integer.MAX_VALUE;
 	
-	public Vertex(String v)
-	{
+	public Vertex(String v) {
 		name = v;
 		distance = INFINITY;	// start as infinity away
 		predecessor = null;
@@ -53,5 +52,26 @@ public class Vertex implements Comparable<Vertex>{
 			return diff;
 		else
 			return name.compareTo(other.name);
+	}
+	
+	public String lastFourLetters() {
+		return  name.substring(name.length() - 4);
+	}
+
+	public boolean matches(Vertex w) {
+		String word = this.name;
+		boolean b = true;
+		String letters = w.lastFourLetters();
+		for (int i = 0; i < letters.length(); i++) {
+			int charIndx = word.indexOf(letters.charAt(i));
+			
+			if (charIndx != -1) {
+				b &= true;
+				word = word.substring(0, charIndx) + word.substring(charIndx + 1); 
+			} else {
+				b &= false;
+			}
+		}
+		return b;
 	}
 }
