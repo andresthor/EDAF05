@@ -65,12 +65,8 @@ public class Vertex implements Comparable<Vertex>{
 		for (int i = 0; i < letters.length(); i++) {
 			int charIndx = word.indexOf(letters.charAt(i));
 			
-			if (charIndx != -1) {
-				b &= true;
+			if (b &= charIndx != -1)
 				word = word.substring(0, charIndx) + word.substring(charIndx + 1); 
-			} else {
-				b &= false;
-			}
 		}
 		return b;
 	}
