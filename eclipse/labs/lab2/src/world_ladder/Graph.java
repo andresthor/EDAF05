@@ -89,36 +89,42 @@ public class Graph {
 		if ((w = getVertex(to)) == null)
 			w = addVertex(to);
 		neighbors.get(v).add(w);
-		
+		neighbors.get(w).add(v);
+
+	}
+	/**
+	 * Returns an Iterator over Vertices in Graph.
+	 * @param v
+	 * @return an Iterator over all Vertices in Graph
+	 */
+	public Iterable<Vertex> adjacentTo(Vertex v) {
+		if (!neighbors.containsKey(v))
+			return EMPTY_SET;
+		return neighbors.get(v);
 	}
 	
+	public Iterable<Vertex> getVertices() {
+		return myVertices.values();
+	}
 	
+	public int numVertices() {
+		return myNumVertices;
+	}
 	
+	public int numEdges() {
+		return myNumEdges;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public String toString() {
+		String s = "";
+		for (Vertex v : myVertices.values()) {
+			s += v + ": ";
+			for (Vertex w : neighbors.get(v)) {
+				s += w + " ";
+			}
+			s += "\n";
+		}
+		return s;
+	}	
 	
 }
