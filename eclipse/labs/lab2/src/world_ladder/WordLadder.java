@@ -4,8 +4,10 @@
 package world_ladder;
 
 /**
- * @author anton
- *
+ * @author Anton Friberg, Lund University
+ *	
+ *	Find paths between given words among the five-letter
+ *  words of English.
  */
 public class WordLadder {
 
