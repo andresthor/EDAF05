@@ -12,18 +12,17 @@ public class Vertex implements Comparable<Vertex>{
 	/**
 	 * previous vertex on path from source
 	 */
-	public Vertex predecessor;
+	public Vertex parent;
 	
 	/**
 	 * Infinite distance indicates that there is no path
 	 * from the source to this vertex
 	 */
-	public static final int INFINITY = Integer.MAX_VALUE;
 	
 	public Vertex(String v) {
 		name = v;
-		distance = INFINITY;	// start as infinity away
-		predecessor = null;
+		distance = -1;	// -1 represents infinity
+		parent = null;
 	}
 	
 	/**
@@ -42,7 +41,7 @@ public class Vertex implements Comparable<Vertex>{
 	}
 	
 	/**
-	 * Compare to the basis of distance from surce first and
+	 * Compare to the basis of distance from source first and
 	 * then lexicographically
 	 */
 	public int compareTo(Vertex other)

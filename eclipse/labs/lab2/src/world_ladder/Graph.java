@@ -4,6 +4,7 @@
 package world_ladder;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.TreeSet;
 
 /**  
@@ -29,7 +30,6 @@ public class Graph {
 		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
-		Vertex x = new Vertex("Test");
 		
 	}
 	
@@ -125,6 +125,37 @@ public class Graph {
 		}
 		
 		return s;
-	}	
+	}
+	
+	public int BFS(Vertex root, Vertex end) {
+		for (Vertex v : getVertices()) {
+			v.distance = -1;
+			v.parent = null;
+		}
+		
+		LinkedList<Vertex> queue = new LinkedList<Vertex>();
+		Vertex current;
+		
+		root.distance = 0;
+		queue.add(root);
+		
+		outer:
+		while (!queue.isEmpty()) {
+			current = queue.pop();
+			
+			
+			for (Vertex v : adjacentTo(current)) {
+				if (v.distance == -1) {
+					v.distance = current.distance + 1;
+					v.parent = current;
+					queue.add(v);
+					if (v == end)
+						break outer;
+				}
+			}
+		}
+		
+		return end.distance;
+	}
 	
 }

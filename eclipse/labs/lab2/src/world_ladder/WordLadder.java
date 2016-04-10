@@ -7,9 +7,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
- * @author Anton Friberg, Lund University
+ * @author Anton Friberg, Andres Saemundsson, Lund University
  *	
  *	Find paths between given words among the five-letter
  *  words of English.
@@ -20,21 +21,52 @@ public class WordLadder {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BufferedReader br = null;
+		BufferedReader br1 = null;
+		BufferedReader br2 = null;
 		Graph G = new Graph();
-		String word = null;
+		
+		br1 = readFile(args[0]);		// should be the file with all vertices
+		br2 = readFile(args[1]);		// should be the file we want to test
+		
+		buildGraph(br1, G);
+		
+		int[] distances = BFS(br2, G);	// get the distances between words in test file
+		
+		for (int i : distances)
+			System.out.println(i);
+		
+		//System.out.println(G.toString());
+		
+	}
+	
+	private static int[] BFS(BufferedReader br, Graph G) {
+		String line = null;
+		LinkedList<String[]> words = new LinkedList<String[]>();
 		
 		try {
-			br = new BufferedReader(new FileReader(args[0]));
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found.\n");
-			e1.printStackTrace();
-			System.exit(0);
+			while ((line = br.readLine()) != null) {
+				words.add(line.split(" "));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		/*
-		 * Read word on every line on input file and add to graph. 
-		 */
+		int[] distances = new int[words.size()];
+		int i = 0;
+		while (!words.isEmpty()) {
+			String[] twoWords = words.pop();
+			distances[i] = G.BFS(G.getVertex(twoWords[0]), G.getVertex(twoWords[1]));
+			i++;
+		}
+		
+		return distances;
+	}
+	
+	/*
+	 * Read word on every line on input file and add to graph. 
+	 */
+	private static void buildGraph(BufferedReader br, Graph G) {
+		String word = null;
 		while (true) {
 			try {
 				word = br.readLine();
@@ -42,7 +74,7 @@ public class WordLadder {
 				e.printStackTrace();
 			}
 			
-			if (word==null)
+			if (word == null)
 				break;
 			else if (word != "") {
 				G.addVertex(word);
@@ -61,10 +93,19 @@ public class WordLadder {
 				}
 			}	
 		}
+	}
+	
+	private static BufferedReader readFile(String fileName) {
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e1) {
+			System.out.println("File not found.\n");
+			e1.printStackTrace();
+			System.exit(0);
+		}
 		
-		System.out.println(G.toString());
-		
-		
+		return br;
 	}
 	
 	
