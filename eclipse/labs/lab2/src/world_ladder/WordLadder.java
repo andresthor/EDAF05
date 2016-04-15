@@ -23,6 +23,7 @@ public class WordLadder {
 	public static void main(String[] args) {
 		BufferedReader br1 = null;
 		BufferedReader br2 = null;
+		BufferedReader br3 = null;
 		Graph G = new Graph();
 		
 		br1 = readFile(args[0]);		// should be the file with all vertices
@@ -32,11 +33,16 @@ public class WordLadder {
 		
 		int[] distances = BFS(br2, G);	// get the distances between words in test file
 		
-		for (int i : distances)
-			System.out.println(i);
-		
-		//System.out.println(G.toString());
-		
+		if (args.length == 2) {
+			for (int i : distances)
+				System.out.println(i);
+		} else if (args.length > 2) {
+			br3 = readFile(args[1]);
+			printBFSPath(br3, G);
+		} else {
+			System.out.println("Wrong number of inputs");
+			System.exit(1);
+		}
 	}
 	
 	private static int[] BFS(BufferedReader br, Graph G) {
@@ -60,6 +66,30 @@ public class WordLadder {
 		}
 		
 		return distances;
+	}
+	
+	private static void printBFSPath(BufferedReader br, Graph G) {
+		String line = null;
+		LinkedList<String[]> words = new LinkedList<String[]>();
+		
+		try {
+			while ((line = br.readLine()) != null) {
+				words.add(line.split(" "));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		while(!words.isEmpty()) {
+			String[] twoWords = words.pop();
+			LinkedList<Vertex> path = G.BFSPath(G.getVertex(twoWords[0]), G.getVertex(twoWords[1]));
+			for (Vertex v : path) {
+				System.out.printf(v.name);
+				if (v != path.getLast()) {
+					System.out.printf(" ,");
+				}
+			}
+			System.out.println();
+		}
 	}
 	
 	/*

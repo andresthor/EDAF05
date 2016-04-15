@@ -158,4 +158,26 @@ public class Graph {
 		return end.distance;
 	}
 	
+	/**
+	 * @pre BFS has already been run
+	 * @param root
+	 * @param end
+	 * @return
+	 */
+	public LinkedList<Vertex> BFSPath(Vertex root, Vertex end) {
+		Vertex tmp = end;
+		LinkedList<Vertex> path = new LinkedList<Vertex>();
+		while (tmp != root) {
+			path.addFirst(tmp);
+			if (tmp.parent != null) {
+				tmp = tmp.parent;
+			} else {
+				break;
+			}
+		}
+		path.addFirst(root);
+		
+		return path;
+	}
+	
 }
