@@ -17,10 +17,10 @@ import javafx.util.Pair;
  * @throws IndexOutOfBoundsException if the endpoints of any edge are not in prescribed range
  * @throws IllegalArgumentException if the number of vertices or edges is negaVertex*/
 public class Graph {
-	private HashMap<Vertex, TreeSet<Vertex>> neighbors;
-	private LinkedHashMap<Edge, Integer> edges;
-	private HashMap<String, Vertex> myVertices;
 	private static final TreeSet<Vertex> EMPTY_SET = new TreeSet<Vertex>();
+	private HashMap<Vertex, TreeSet<Vertex>> neighbors;
+	private HashMap<String, Vertex> myVertices;
+	private TreeSet<Edge> edges;
 	private int myNumVertices;
 	private int myNumEdges;
 	
@@ -31,7 +31,7 @@ public class Graph {
 		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
-		edges = new LinkedHashMap<Edge, Integer>();
+		edges = new TreeSet<Edge>();
 	}
 	
 	/*
@@ -51,62 +51,46 @@ public class Graph {
 		return v;
 	}
 	
-	/*
-	 * Returns the Vertex matching name
-	 */
+
 	public Vertex getVertex(String name) {
 		return myVertices.get(name);
 	}
 	
-	/*
-	 * Returns true if name is in this Graph, false otherwise.
-	 */
 	public boolean hasVertex(String name) {
 		return myVertices.containsKey(name);
 	}
 	
-	/*
-	 * Is from-to, and edge in this Graph? The graph
-	 * is currently undirected so the order does not matter
-	 */
 	public boolean hasEdge(String from, String to) {
-		if (!hasVertex(from) || !hasVertex(to))
-			return false;
-		return neighbors.get(myVertices.get(from)).contains(myVertices.get(to));
+
+		return false;
 	}
 	
-	/*
-	 * Add Edge between from and to, i.e. add to to from's 
-	 * set of neighbors, and from to to's set of neighbors.
-	 * Does not add if already an edge.
-	 */
-	private boolean addEdge(String from, String to) {
-		Vertex v, w;
-		if (hasEdge(from, to))
-			return false;
-		myNumEdges++;
-		if ((v = getVertex(from)) == null)
-			v = addVertex(from);
-		if ((w = getVertex(to)) == null)
-			w = addVertex(to);
-		neighbors.get(v).add(w);
-		return true;
-	}
-	
-	public void addEdge(String from, String to, int distance) {
-		if (addEdge(from, to)) {
-			Edge tmp = new Edge(this.getVertex(from), this.getVertex(to));
-			edges.put(tmp, distance);
+	public boolean addEdge(String from, String to, int distance) {
+		Vertex f = getVertex(from);
+		Vertex t = getVertex(to);
+		Edge e = new Edge(f, t, distance);
+		if (edges.add(e)) {
+			myNumEdges++;
+			makeNeighbors(f, t);
+			return true;
 		}
+		
+		return false;
+	}
+	
+	private void makeNeighbors(Vertex v1, Vertex v2) {
+		TreeSet<Vertex> t1 = neighbors.get(v1);
+		TreeSet<Vertex> t2 = neighbors.get(v2);
+		
+		t1.add(v2);
+		t2.add(v1);
+		//neighbors.get(v1).add(v2);
+		//neighbors.get(v2).add(v1);
 	}
 	
 	public int getDistance(String from, String to) {
-		//System.out.printf("\nfrom: %s to:%s\n", from, to);
-		Edge tmp = new Edge(this.getVertex(from), this.getVertex(to));
-		int tmpDist = 0;
-		if(edges.containsKey(tmp))
-			tmpDist = edges.get(tmp);
-		return tmpDist;
+
+		return -1;
 	}
 	
 	/**
@@ -142,19 +126,6 @@ public class Graph {
 			}
 			s += "\n";
 		}
-		
-		int n = 0;
-		s += "\nEDGES\n";
-		for (Edge e : edges.keySet()) {
-			s += e.getFirst().name;
-			s += " -- ";
-			s += e.getSecond().name;
-			s += "\n";
-			n++;
-			if (n > 10) break;
-		}
-		
-		s += "\n";
 		
 		return s;
 	}	

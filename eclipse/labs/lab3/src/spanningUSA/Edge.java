@@ -2,31 +2,32 @@ package spanningUSA;
 
 public class Edge implements Comparable<Edge> {
 	private Vertex v1, v2;
+	int length;
 	
 	
-	public Edge(Vertex v1, Vertex v2) {
+	public Edge(Vertex v1, Vertex v2, int length) {
 		this.v1 = v1;
 		this.v2 = v2;
+		this.length = length;
 	}
 	
 	public boolean equals(Edge other) {
 		if (this == other) return true;
-				
-		return this.compareTo(other) == 0;
+
+		/*
+		 * 		return (x1 = x2 && y1 = y2) || (x1 = y2 && y1 = x2)
+		 */
+		return (   (getFirst().equals(other.getFirst()) && getSecond().equals(other.getSecond()) 	)
+			     ||
+			       (getFirst().equals(other.getSecond()) && getSecond().equals(other.getFirst()))  );
 	}
 	
 	public int compareTo(Edge other) {
-		if (this == other) return 0;
-
-		if (v1.equals(other.v1) && v2.equals(other.v2)) {
-			return 0;
-		} else {
-			return v1.compareTo(other.v2) + v2.compareTo(other.v1);
-		}
+		return this.length - other.length;
 	}
 	
 	public int hashCode() {
-		return (int) v1.name.hashCode() * v2.name.hashCode();
+		return (int) this.v1.hashCode() * this.v2.hashCode();
 	}
 	
 	public Vertex getFirst(){

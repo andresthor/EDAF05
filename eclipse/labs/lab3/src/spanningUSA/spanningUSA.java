@@ -18,11 +18,7 @@ public class spanningUSA {
 		
 		System.out.println(G);
 		
-		//if (new Pair("This", "That") == new Pair("This", "That"))
-		//{
-		//System.out.println(printDistance("San Diego", "San Francisco", G));
-		//System.out.println(printDistance("San Francisco", "San Diego", G));
-		//}
+		
 		try {
 			br.close();
 		} catch (IOException e) {
@@ -60,6 +56,8 @@ public class spanningUSA {
 				System.exit(1);
 			}
 			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
+			//cities[0] = cities[0].replace(' ', '#');
+			//cities[1] = cities[1].replace(' ', '#');
 			G.addEdge(cities[0],  cities[1], distance);
 		}
 	}
@@ -95,6 +93,7 @@ public class spanningUSA {
 				word = removeQuote(word);
 			}
 			//System.out.println(word);
+			//word.replace(' ', '#');
 			G.addVertex(word);
 		}
 	}
