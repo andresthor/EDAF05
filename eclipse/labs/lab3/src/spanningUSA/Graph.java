@@ -101,7 +101,7 @@ public class Graph {
 			edges.put(tmp, distance);
 			
 			int tmpDist = edges.get(tmp);
-			System.out.printf("%s - %s : %d vs %d\n", from, to, distance, tmpDist );
+			//System.out.printf("%s - %s : %d vs %d\n", from, to, distance, tmpDist );
 		}
 	}
 	
