@@ -16,9 +16,14 @@ public class Edge implements Comparable {
 			return false;
 		
 		Edge that = (Edge) other;
-		return 		( that.getFirst().equals(this.v1) && that.getSecond().equals(this.v2) )
+		Vertex a1 = that.v1;
+		Vertex a2 = that.v2;
+		Vertex b1 = this.v1;
+		Vertex b2 = this.v2;
+		
+		return 		( a1.equals(b1) && a2.equals(b2) )
 				||
-					( that.getFirst().equals(this.v2) && that.getSecond().equals(this.v1) );
+					( a1.equals(b2) && a2.equals(b1) );
 	}
 	
 	public int compareTo(Object other) {
@@ -33,6 +38,10 @@ public class Edge implements Comparable {
 			return v1.compareTo(that.v2) + v2.compareTo(that.v1);
 		}
 		
+	}
+	
+	public int hashCode() {
+		return (int) v1.name.hashCode() * v2.name.hashCode();
 	}
 	
 	public Vertex getFirst(){

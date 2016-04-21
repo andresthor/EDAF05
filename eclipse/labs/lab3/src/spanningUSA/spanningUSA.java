@@ -16,7 +16,7 @@ public class spanningUSA {
 		addCities(br, G);
 		addPaths(br, G);
 		
-		System.out.println(G);
+		//System.out.println(G);
 		
 		//if (new Pair("This", "That") == new Pair("This", "That"))
 		//{

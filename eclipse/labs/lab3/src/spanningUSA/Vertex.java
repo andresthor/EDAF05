@@ -57,7 +57,9 @@ public class Vertex implements Comparable<Vertex>{
 		}
 			
 		Vertex that = (Vertex) other;
-		return (this.name == that.name) && (hashCode() == that.hashCode());
+		String s1 = this.name;
+		String s2 = that.name;
+		return (s1.equals(s2));
 	}
 
 }

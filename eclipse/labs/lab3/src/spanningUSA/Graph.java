@@ -108,7 +108,9 @@ public class Graph {
 	public int getDistance(String from, String to) {
 		//System.out.printf("\nfrom: %s to:%s\n", from, to);
 		Edge tmp = new Edge(this.getVertex(from), this.getVertex(to));
-		int tmpDist = edges.get(tmp);
+		int tmpDist = 0;
+		if(edges.containsKey(tmp))
+			tmpDist = edges.get(tmp);
 		return tmpDist;
 	}
 	
