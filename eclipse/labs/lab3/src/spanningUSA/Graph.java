@@ -1,11 +1,10 @@
-/**
- * 
- */
-package world_ladder;
+package spanningUSA;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeSet;
+
+import javafx.util.Pair;
 
 /**  
  * Initializes a graph from an input stream.
@@ -18,6 +17,7 @@ import java.util.TreeSet;
  * @throws IllegalArgumentException if the number of vertices or edges is negaVertex*/
 public class Graph {
 	private HashMap<Vertex, TreeSet<Vertex>> neighbors;
+	private HashMap<Edge, Integer> edges;
 	private HashMap<String, Vertex> myVertices;
 	private static final TreeSet<Vertex> EMPTY_SET = new TreeSet<Vertex>();
 	private int myNumVertices;
@@ -30,6 +30,7 @@ public class Graph {
 		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
+		edges = new HashMap<Edge, Integer>();
 		
 	}
 	
@@ -79,18 +80,38 @@ public class Graph {
 	 * set of neighbors, and from to to's set of neighbors.
 	 * Does not add if already an edge.
 	 */
-	public void addEdge(String from, String to) {
+	public boolean addEdge(String from, String to) {
 		Vertex v, w;
 		if (hasEdge(from, to))
-			return;
+			return false;
 		myNumEdges++;
 		if ((v = getVertex(from)) == null)
 			v = addVertex(from);
 		if ((w = getVertex(to)) == null)
 			w = addVertex(to);
 		neighbors.get(v).add(w);
-
+		return true;
 	}
+	
+	public void addEdge(String from, String to, int distance) {
+		System.out.printf("%s - %s : %d\n", from, to, distance);
+		if (addEdge(from, to)) {
+			if (from.compareTo(to) > 0)
+				edges.put(new Edge(getVertex(from), getVertex(to)), distance);
+			else
+				edges.put(new Edge(getVertex(to), getVertex(from)), distance);
+		}
+	}
+	
+	public int getDistance(String from, String to) {
+		System.out.printf("\nfrom: %s to:%s\n", from, to);
+		int k = edges.get(new Edge(getVertex(from), getVertex(to)));
+		int i = edges.get(new Edge(getVertex(to), getVertex(from)));
+
+		
+		return i > k ? i : k;
+	}
+	
 	/**
 	 * Returns an Iterator over Vertices in Graph.
 	 * @param v
@@ -125,58 +146,5 @@ public class Graph {
 		}
 		
 		return s;
-	}
-	
-	public int BFS(Vertex root, Vertex end) {
-		for (Vertex v : getVertices()) {
-			v.distance = -1;
-			v.parent = null;
-		}
-		
-		LinkedList<Vertex> queue = new LinkedList<Vertex>();
-		Vertex current;
-		
-		root.distance = 0;
-		queue.add(root);
-		
-		outer:
-		while (!queue.isEmpty()) {
-			current = queue.pop();
-			
-			for (Vertex v : adjacentTo(current)) {
-				if (v.distance == -1) {
-					v.distance = current.distance + 1;
-					v.parent = current;
-					queue.add(v);
-					if (v == end)
-						break outer;
-				}
-			}
-		}
-		
-		return end.distance;
-	}
-	
-	/**
-	 * @pre BFS has already been run
-	 * @param root
-	 * @param end
-	 * @return
-	 */
-	public LinkedList<Vertex> BFSPath(Vertex root, Vertex end) {
-		Vertex tmp = end;
-		LinkedList<Vertex> path = new LinkedList<Vertex>();
-		while (tmp != root) {
-			path.addFirst(tmp);
-			if (tmp.parent != null) {
-				tmp = tmp.parent;
-			} else {
-				break;
-			}
-		}
-		path.addFirst(root);
-		
-		return path;
-	}
-	
+	}	
 }

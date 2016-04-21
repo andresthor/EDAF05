@@ -79,16 +79,19 @@ public class WordLadder {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("--- SHORTEST PATHS ---\n");
 		while(!words.isEmpty()) {
 			String[] twoWords = words.pop();
 			LinkedList<Vertex> path = G.BFSPath(G.getVertex(twoWords[0]), G.getVertex(twoWords[1]));
+			System.out.printf("%s -> %s\n", twoWords[0], twoWords[1]);
+			System.out.printf("length of list: %d\n",  path.size());
 			for (Vertex v : path) {
 				System.out.printf(v.name);
 				if (v != path.getLast()) {
-					System.out.printf(" ,");
+					System.out.printf(", ");
 				}
 			}
-			System.out.println();
+			System.out.println("\n-------------------------------------------------------------");
 		}
 	}
 	
