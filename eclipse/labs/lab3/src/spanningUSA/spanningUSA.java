@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javafx.util.Pair;
 
@@ -16,8 +17,15 @@ public class spanningUSA {
 		addCities(br, G);
 		addPaths(br, G);
 		
-		printDistance("San Diego", "San Francisco", G);
-		printDistance("San Francisco", "San Diego", G);
+		LinkedList<Edge> minRoute = G.minimumSpanningTree();
+		//System.out.println(G);
+		
+		for (Edge e : minRoute) {
+			System.out.println(e.getFirst().name);
+		}
+		
+		//printDistance("San Diego", "San Francisco", G);
+		//printDistance("San Francisco", "San Diego", G);
 		//}
 		
 	}
@@ -51,7 +59,7 @@ public class spanningUSA {
 				System.exit(1);
 			}
 			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
-			G.addEdge(cities[0],  cities[1], distance);
+			G.addEdge(cities[0].trim(), cities[1].trim(), distance);
 		}
 	}
 	

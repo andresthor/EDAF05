@@ -23,6 +23,8 @@ public class Graph {
 	private static final TreeSet<Vertex> EMPTY_SET = new TreeSet<Vertex>();
 	private int myNumVertices;
 	private int myNumEdges;
+	private LinkedList<Edge> minRoute;
+	private TreeSet<Vertex> visitedVertices;
 	
 	/*
 	 * Construct new empty Graph
@@ -32,6 +34,8 @@ public class Graph {
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
 		edges = new LinkedHashMap<Edge, Integer>();
+		visitedVertices = new TreeSet<Vertex>();
+		minRoute = new LinkedList<Edge>();
 		
 	}
 	
@@ -91,6 +95,8 @@ public class Graph {
 		if ((w = getVertex(to)) == null)
 			w = addVertex(to);
 		neighbors.get(v).add(w);
+		neighbors.get(w).add(v);
+		//System.out.println(neighbors.get(v).size());
 		return true;
 	}
 	
@@ -137,6 +143,60 @@ public class Graph {
 		return myNumEdges;
 	}
 	
+	public LinkedList<Edge> minimumSpanningTree() {
+		Vertex v1 = myVertices.entrySet().iterator().next().getValue(); // Get first Vertex value from myVertices
+		System.out.println(v1.name);
+		if(visitedVertices != null)
+			visitedVertices.clear();
+		this.MSTrecursive(v1);
+		return minRoute;
+	}
+	
+	
+	
+	private void MSTrecursive(Vertex v1) {		
+		Vertex v2 = this.getClosestNeighboor(v1); 			//Closest Neighbor not in set
+		if (v2 != null) {
+			System.out.println(v2.name);
+			minRoute.add(new Edge(v1, v2));
+			MSTrecursive(v2);
+		}	
+	}
+
+	private boolean alreadyInSet(Vertex v) {
+		boolean b;
+		try {
+			b = visitedVertices.contains(v);
+		} catch (NullPointerException e) {
+			b = false;
+		}
+		
+		if (b) {
+			return true;
+		} else {
+			visitedVertices.add(v);
+			return false;
+		}
+	}
+
+	private Vertex getClosestNeighboor(Vertex v1) {
+		TreeSet<Vertex> ts = neighbors.get(v1);
+		int minDistance = -1;
+		Vertex closestNeighbor = null;
+		if (ts.isEmpty())
+			System.out.println("Its empty");
+		for (Vertex n : neighbors.get(v1)) {
+			if (!alreadyInSet(n)) {
+				int newDistance = this.getDistance(n.name, v1.name);
+				if (minDistance < 0 || minDistance >= newDistance) {
+					minDistance = newDistance;
+					closestNeighbor = n;
+				}
+			} 
+		}
+		return closestNeighbor;
+	}
+
 	public String toString() {
 		String s = "";
 		s += "VERTICES:\n";
@@ -148,18 +208,18 @@ public class Graph {
 			s += "\n";
 		}
 		
-		int n = 0;
-		s += "\nEDGES\n";
-		for (Edge e : edges.keySet()) {
-			s += e.getFirst().name;
-			s += " -- ";
-			s += e.getSecond().name;
-			s += "\n";
-			n++;
-			if (n > 10) break;
-		}
-		
-		s += "\n";
+//		int n = 0;
+//		s += "\nEDGES\n";
+//		for (Edge e : edges.keySet()) {
+//			s += e.getFirst().name;
+//			s += " -- ";
+//			s += e.getSecond().name;
+//			s += "\n";
+//			n++;
+//			if (n > 10) break;
+//		}
+//
+//		s += "\n";
 		
 		return s;
 	}	
