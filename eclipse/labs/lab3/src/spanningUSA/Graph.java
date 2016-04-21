@@ -66,8 +66,12 @@ public class Graph {
 	}
 	
 	public boolean addEdge(String from, String to, int distance) {
-		Vertex f = getVertex(from);
-		Vertex t = getVertex(to);
+		Vertex f, t;
+		if ((f = getVertex(from)) == null)
+			f = addVertex(from);
+		if ((t = getVertex(to)) == null)
+			t = addVertex(to);
+		
 		Edge e = new Edge(f, t, distance);
 		if (edges.add(e)) {
 			myNumEdges++;
@@ -79,13 +83,13 @@ public class Graph {
 	}
 	
 	private void makeNeighbors(Vertex v1, Vertex v2) {
-		TreeSet<Vertex> t1 = neighbors.get(v1);
-		TreeSet<Vertex> t2 = neighbors.get(v2);
-		
-		t1.add(v2);
-		t2.add(v1);
-		//neighbors.get(v1).add(v2);
-		//neighbors.get(v2).add(v1);
+//		TreeSet<Vertex> t1 = neighbors.get(v1);
+//		TreeSet<Vertex> t2 = neighbors.get(v2);
+//		
+//		t1.add(v2);
+//		t2.add(v1);
+		neighbors.get(v1).add(v2);
+		neighbors.get(v2).add(v1);
 	}
 	
 	public int getDistance(String from, String to) {

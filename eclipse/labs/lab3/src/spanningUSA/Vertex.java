@@ -20,7 +20,7 @@ public class Vertex implements Comparable<Vertex>{
 	 */
 	
 	public Vertex(String v) {
-		name = v;
+		name = v.trim();
 		distance = -1;	// -1 represents infinity
 		parent = null;
 	}
