@@ -1,6 +1,7 @@
 package spanningUSA;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
@@ -17,7 +18,7 @@ import javafx.util.Pair;
  * @throws IllegalArgumentException if the number of vertices or edges is negaVertex*/
 public class Graph {
 	private HashMap<Vertex, TreeSet<Vertex>> neighbors;
-	private HashMap<Edge, Integer> edges;
+	private LinkedHashMap<Edge, Integer> edges;
 	private HashMap<String, Vertex> myVertices;
 	private static final TreeSet<Vertex> EMPTY_SET = new TreeSet<Vertex>();
 	private int myNumVertices;
@@ -30,7 +31,7 @@ public class Graph {
 		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
-		edges = new HashMap<Edge, Integer>();
+		edges = new LinkedHashMap<Edge, Integer>();
 		
 	}
 	
@@ -80,7 +81,7 @@ public class Graph {
 	 * set of neighbors, and from to to's set of neighbors.
 	 * Does not add if already an edge.
 	 */
-	public boolean addEdge(String from, String to) {
+	private boolean addEdge(String from, String to) {
 		Vertex v, w;
 		if (hasEdge(from, to))
 			return false;
@@ -94,22 +95,20 @@ public class Graph {
 	}
 	
 	public void addEdge(String from, String to, int distance) {
-		System.out.printf("%s - %s : %d\n", from, to, distance);
+		System.out.printf("addEdge: %s - %s : %d\n", from, to, distance);
 		if (addEdge(from, to)) {
-			if (from.compareTo(to) > 0)
-				edges.put(new Edge(getVertex(from), getVertex(to)), distance);
-			else
-				edges.put(new Edge(getVertex(to), getVertex(from)), distance);
+			System.out.println("added!");
+			Edge tmp = new Edge(getVertex(from), getVertex(to));
+			edges.put(tmp, distance);
+			
+			int tmpDist = edges.get(tmp);
+			System.out.printf("%s - %s : %d vs %d", from, to, distance, tmpDist );
 		}
 	}
 	
 	public int getDistance(String from, String to) {
-		System.out.printf("\nfrom: %s to:%s\n", from, to);
-		int k = edges.get(new Edge(getVertex(from), getVertex(to)));
-		int i = edges.get(new Edge(getVertex(to), getVertex(from)));
-
-		
-		return i > k ? i : k;
+		//System.out.printf("\nfrom: %s to:%s\n", from, to);
+		return edges.get(new Edge(getVertex(from), getVertex(to)));
 	}
 	
 	/**

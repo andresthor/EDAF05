@@ -20,7 +20,7 @@ public class spanningUSA {
 		
 		//if (new Pair("This", "That") == new Pair("This", "That"))
 		//{
-		System.out.println(printDistance("San Diego", "San Francisco", G));
+		//System.out.println(printDistance("San Diego", "San Francisco", G));
 		//System.out.println(printDistance("San Francisco", "San Diego", G));
 		//}
 		
@@ -54,14 +54,17 @@ public class spanningUSA {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			
+			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
 			G.addEdge(cities[0],  cities[1], distance);
 		}
 	}
 	
 	private static String removeQuote(String input) {
-		if (input.startsWith("\""))
-			input = input.substring(1, input.length() - 1);
+		if (input.startsWith("\"")){
+			int i = input.indexOf('\"');
+			int k = input.lastIndexOf('\"');
+			input = input.substring(i + 1, k);			// removes quotes and trailing spaces
+		}
 		
 		return input;
 	}
@@ -86,7 +89,7 @@ public class spanningUSA {
 			} else {
 				word = removeQuote(word);
 			}
-
+			//System.out.println(word);
 			G.addVertex(word);
 		}
 	}
