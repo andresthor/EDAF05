@@ -1,6 +1,6 @@
 package spanningUSA;
 
-public class Edge implements Comparable {
+public class Edge implements Comparable<Edge> {
 	private Vertex v1, v2;
 	
 	
@@ -9,35 +9,20 @@ public class Edge implements Comparable {
 		this.v2 = v2;
 	}
 	
-	public boolean equals(Object other) {
+	public boolean equals(Edge other) {
 		if (this == other) return true;
-		
-		if (other == null || this.getClass() != other.getClass())
-			return false;
-		
-		Edge that = (Edge) other;
-		Vertex a1 = that.v1;
-		Vertex a2 = that.v2;
-		Vertex b1 = this.v1;
-		Vertex b2 = this.v2;
-		
-		return 		( a1.equals(b1) && a2.equals(b2) )
-				||
-					( a1.equals(b2) && a2.equals(b1) );
+				
+		return this.compareTo(other) == 0;
 	}
 	
-	public int compareTo(Object other) {
-		if (getClass() != other.getClass()){
-			return -1;
-		}
-		
-		Edge that = (Edge) other;
-		if (v1.equals(that.v1) && v2.equals(that.v2)) {
+	public int compareTo(Edge other) {
+		if (this == other) return 0;
+
+		if (v1.equals(other.v1) && v2.equals(other.v2)) {
 			return 0;
 		} else {
-			return v1.compareTo(that.v2) + v2.compareTo(that.v1);
+			return v1.compareTo(other.v2) + v2.compareTo(other.v1);
 		}
-		
 	}
 	
 	public int hashCode() {

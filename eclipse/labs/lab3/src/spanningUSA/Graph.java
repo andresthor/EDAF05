@@ -32,7 +32,6 @@ public class Graph {
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
 		edges = new LinkedHashMap<Edge, Integer>();
-		
 	}
 	
 	/*
@@ -95,13 +94,9 @@ public class Graph {
 	}
 	
 	public void addEdge(String from, String to, int distance) {
-		//System.out.printf("addEdge: %s - %s : %d\n", from, to, distance);
 		if (addEdge(from, to)) {
 			Edge tmp = new Edge(this.getVertex(from), this.getVertex(to));
 			edges.put(tmp, distance);
-			
-			int tmpDist = edges.get(tmp);
-			//System.out.printf("%s - %s : %d vs %d\n", from, to, distance, tmpDist );
 		}
 	}
 	
