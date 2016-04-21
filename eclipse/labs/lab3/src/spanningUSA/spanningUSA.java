@@ -12,7 +12,7 @@ public class spanningUSA {
 	public static void main(String[] args) {
 		BufferedReader br = readFile(args[0]);
 		Graph G = new Graph();
-
+		
 		addCities(br, G);
 		addPaths(br, G);
 		

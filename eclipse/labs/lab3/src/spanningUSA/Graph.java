@@ -98,7 +98,7 @@ public class Graph {
 		System.out.printf("addEdge: %s - %s : %d\n", from, to, distance);
 		if (addEdge(from, to)) {
 			System.out.println("added!");
-			Edge tmp = new Edge(getVertex(from), getVertex(to));
+			Edge tmp = new Edge(this.getVertex(from), this.getVertex(to));
 			edges.put(tmp, distance);
 			
 			int tmpDist = edges.get(tmp);
