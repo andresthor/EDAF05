@@ -1,8 +1,6 @@
 package spanningUSA;
 
-import java.util.Comparator;
-
-public class Vertex implements Comparator<Vertex>{
+public class Vertex implements Comparable<Vertex>{
 	/**
 	 * label for Vertex
 	 */
@@ -16,6 +14,10 @@ public class Vertex implements Comparator<Vertex>{
 	 */
 	public Vertex parent;
 	
+	/**
+	 * Infinite distance indicates that there is no path
+	 * from the source to this vertex
+	 */
 	
 	public Vertex(String v) {
 		name = v;
@@ -23,6 +25,11 @@ public class Vertex implements Comparator<Vertex>{
 		parent = null;
 	}
 	
+	/**
+	 * The name of the Vertex is assumed to be unique, so it
+	 * is used as a HashCode
+	 * @see java.lang.Object#hashCode()
+	 */
 	public int hashCode()
 	{
 		return name.hashCode();
@@ -33,26 +40,26 @@ public class Vertex implements Comparator<Vertex>{
 		return name;
 	}
 	
-	public boolean equals(Object other) {
+	/**
+	 * Compare to the basis of distance from source first and
+	 * then lexicographically
+	 */
+	public int compareTo(Vertex other)
+	{
+		return name.compareTo(other.name);
+	}
+	
+	public boolean equals (Object other) {
 		if (this == other) return true;
-		
-		if (this.getClass() != other.getClass() || other == null)
+				
+		if (other == null || other.getClass() != getClass()){
 			return false;
-		
+		}
+			
 		Vertex that = (Vertex) other;
-		return this.name.equals(that.name);
+		String s1 = this.name;
+		String s2 = that.name;
+		return (s1.equals(s2));
 	}
-	
-	public int compare(Vertex v1, Vertex v2) {
-		return v1.name.compareTo(v2.name);
-	}
-	
-//	public int compareTo(Object other)
-//	{
-//		if (this == other) return 0;
-//		
-//		Vertex that = (Vertex) other;
-//		return name.compareTo(that.name);
-//	}
 
 }
