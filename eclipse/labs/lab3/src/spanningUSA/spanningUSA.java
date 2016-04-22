@@ -23,17 +23,20 @@ public class spanningUSA {
 		}
 		addPaths(br, G);
 		
-		System.out.println(G);
+		//System.out.println(G);
 		LinkedHashSet<Edge> msT = G.Kruskal();
 		
 		int distance = 0;
 		for (Edge e : msT) {
-			System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
+			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
 			distance += e.length;
 		}
 		
-		System.out.printf("msT distance: %d\n", distance);
+		G.printVertices();
+		
+		System.out.printf("\nmsT distance: %d\n", distance);
 		System.out.printf("msT size: %d\n", msT.size());
+		System.out.printf("G numVert: %d\n", G.numVertices());
 		System.out.printf("G numEdges: %d\n", G.numEdges());
 		
 		
@@ -73,7 +76,7 @@ public class spanningUSA {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
+			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
 			//cities[0] = cities[0].replace(' ', '#');
 			//cities[1] = cities[1].replace(' ', '#');
 			G.addEdge(cities[0],  cities[1], distance);

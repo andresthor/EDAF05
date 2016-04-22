@@ -1,10 +1,15 @@
 package spanningUSA;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeSet;
 
 import javafx.util.Pair;
@@ -44,9 +49,17 @@ public class Graph {
 	 * @param name
 	 * 				vertex to be added
 	 */
+	private int tmp = 0;
+	
 	public Vertex addVertex(String name) {
+		String name2 = "";//name.trim();
+		name = name.trim();
 		Vertex v;
 		v = myVertices.get(name);
+		
+		if (name2.equals("Ravenna ")) {
+			System.out.printf("#%s# vs #%s\n", name, name2);
+		}
 		if (v == null) {
 			v = new Vertex(name);
 			myVertices.put(name, v);
@@ -89,10 +102,10 @@ public class Graph {
 	
 	public LinkedHashSet<Edge> Kruskal() {
 		for (Edge e : edges) {
-			System.out.printf("Edge: %s\n", e);
+			//System.out.printf("Edge: %s\n", e);
 			if (!find(e.getFirst()).equals(find(e.getSecond()))){
 				msT.add(e);
-				System.out.printf("%s added\n", e);	
+				//System.out.printf("%s added\n", e);	
 				union(e.getFirst(), e.getSecond());
 			}
 		}
@@ -118,11 +131,11 @@ public class Graph {
 	}
 	
 	private Vertex find(Vertex e) {
-		System.out.printf("find(%s) = ", e);
+		//System.out.printf("find(%s) = ", e);
 		if (!e.parent.equals(e))
 			e.parent = find(e.parent);
 		
-		System.out.printf("%s\n", e.parent);
+		//System.out.printf("%s\n", e.parent);
 		return e.parent;
 		
 		//		while(!e.equals(e.parent)) {
@@ -190,5 +203,31 @@ public class Graph {
 		
 		
 		return s + t;
-	}	
+	}
+	
+	public void printVertices() {
+//		List<String> vList = new ArrayList<String>();
+//		for (Vertex v : myVertices.values()) {
+//			vList.add(v.name);
+//		}
+//		Collections.sort(vList);
+//		
+//		int n = 1;
+//		for (String s : vList) {
+//			System.out.printf("%d. \"%s\"\n", n, s);
+//			n++;
+//		}
+		
+		List<Vertex> vList2 = new ArrayList<Vertex>();
+		for (Vertex v : myVertices.values()) {
+			vList2.add(v);
+		}
+		Collections.sort(vList2);
+		
+		int n = 1;
+		for (Vertex v : vList2) {
+			System.out.printf("%d. \"%s\" : %s\n", n, v.name, v.hashCode());
+			n++;
+		}
+	}
 }
