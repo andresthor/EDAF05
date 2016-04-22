@@ -14,6 +14,8 @@ public class Vertex implements Comparable<Vertex>{
 	 */
 	public Vertex parent;
 	
+	public int index;
+	
 	/**
 	 * Infinite distance indicates that there is no path
 	 * from the source to this vertex
@@ -60,6 +62,15 @@ public class Vertex implements Comparable<Vertex>{
 		String s1 = this.name;
 		String s2 = that.name;
 		return (s1.equals(s2));
+	}
+
+	public Object name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int index() {
+		return index;
 	}
 
 }
