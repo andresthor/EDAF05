@@ -83,11 +83,6 @@ public class Graph {
 	}
 	
 	private void makeNeighbors(Vertex v1, Vertex v2) {
-//		TreeSet<Vertex> t1 = neighbors.get(v1);
-//		TreeSet<Vertex> t2 = neighbors.get(v2);
-//		
-//		t1.add(v2);
-//		t2.add(v1);
 		neighbors.get(v1).add(v2);
 		neighbors.get(v2).add(v1);
 	}
@@ -131,6 +126,13 @@ public class Graph {
 			s += "\n";
 		}
 		
-		return s;
+		String t = "";
+		t += "EDGES\n";
+		for (Edge e : edges) {
+			t += e.toString() + " : " + e.length + "\n";
+		}
+		
+		
+		return s + t;
 	}	
 }

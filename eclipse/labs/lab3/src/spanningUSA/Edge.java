@@ -37,4 +37,8 @@ public class Edge implements Comparable<Edge> {
 	public Vertex getSecond() {
 		return v2;
 	}
+	
+	public String toString() {
+		return v1 + " - " + v2;
+	}
 }
