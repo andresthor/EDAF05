@@ -17,12 +17,12 @@ public class spanningUSA {
 		addCities(br, G);
 		addPaths(br, G);
 		
-		LinkedList<Edge> minRoute = G.minimumSpanningTree();
-		//System.out.println(G);
+		//LinkedList<Edge> minRoute = G.minimumSpanningTree();
+		System.out.println(G);
 		
-		for (Edge e : minRoute) {
-			System.out.println(e.getFirst().name);
-		}
+//		for (Edge e : minRoute) {
+//			System.out.println(e.getFirst().name);
+//		}
 		
 		//printDistance("San Diego", "San Francisco", G);
 		//printDistance("San Francisco", "San Diego", G);

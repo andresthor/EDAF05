@@ -94,8 +94,9 @@ public class Graph {
 			v = addVertex(from);
 		if ((w = getVertex(to)) == null)
 			w = addVertex(to);
+		addNeighbors(v,w);
 		neighbors.get(v).add(w);
-		neighbors.get(w).add(v);
+		//neighbors.get(w).add(v);
 		//System.out.println(neighbors.get(v).size());
 		return true;
 	}
@@ -160,7 +161,7 @@ public class Graph {
 			System.out.println(v2.name);
 			minRoute.add(new Edge(v1, v2));
 			MSTrecursive(v2);
-		}	
+		}
 	}
 
 	private boolean alreadyInSet(Vertex v) {
@@ -183,8 +184,6 @@ public class Graph {
 		TreeSet<Vertex> ts = neighbors.get(v1);
 		int minDistance = -1;
 		Vertex closestNeighbor = null;
-		if (ts.isEmpty())
-			System.out.println("Its empty");
 		for (Vertex n : neighbors.get(v1)) {
 			if (!alreadyInSet(n)) {
 				int newDistance = this.getDistance(n.name, v1.name);
