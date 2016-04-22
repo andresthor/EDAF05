@@ -18,12 +18,12 @@ public class spanningUSA {
 		addCities(br, G);
 		addPaths(br, G);
 		
-		//System.out.println(G);
+		System.out.println(G);
 		LinkedHashSet<Edge> msT = G.Kruskal();
 		
 		int distance = 0;
 		for (Edge e : msT) {
-			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
+			System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
 			distance += e.length;
 		}
 		

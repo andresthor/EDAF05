@@ -9,11 +9,12 @@ public class Vertex implements Comparable<Vertex>{
 	 * previous vertex on path from source
 	 */
 	public Vertex parent;
-	
+	public int rank;
 	
 	public Vertex(String v) {
 		name = v.trim();
-		parent = null;
+		parent = this;
+		rank = 0;
 	}
 	
 	public int hashCode()

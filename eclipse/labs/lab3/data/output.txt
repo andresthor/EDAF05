@@ -1,0 +1,101 @@
+VERTICES:
+A: G 
+B: C 
+C: B D E F 
+D: C E 
+E: C D F G H 
+F: C E G 
+G: A E F H 
+H: E G 
+EDGES
+E <-> F : 5
+F <-> G : 8
+C <-> D : 9
+E <-> G : 10
+D <-> E : 11
+H <-> E : 14
+G <-> A : 16
+E <-> C : 18
+G <-> H : 21
+F <-> C : 23
+B <-> C : 24
+
+Edge: E <-> F
+find(E) = E
+find(F) = F
+E <-> F added
+find(E) = E
+find(F) = F
+Edge: F <-> G
+find(F) = find(E) = E
+E
+find(G) = G
+F <-> G added
+find(F) = find(E) = E
+E
+find(G) = G
+Edge: C <-> D
+find(C) = C
+find(D) = D
+C <-> D added
+find(C) = C
+find(D) = D
+Edge: E <-> G
+find(E) = E
+find(G) = find(E) = E
+E
+Edge: D <-> E
+find(D) = find(C) = C
+C
+find(E) = E
+D <-> E added
+find(D) = find(C) = C
+C
+find(E) = E
+Edge: H <-> E
+find(H) = H
+find(E) = find(C) = C
+C
+H <-> E added
+find(H) = H
+find(E) = find(C) = C
+C
+Edge: G <-> A
+find(G) = find(E) = find(C) = C
+C
+C
+find(A) = A
+G <-> A added
+find(G) = find(C) = C
+C
+find(A) = A
+Edge: E <-> C
+find(E) = find(C) = C
+C
+find(C) = C
+Edge: G <-> H
+find(G) = find(C) = C
+C
+find(H) = find(C) = C
+C
+Edge: F <-> C
+find(F) = find(E) = find(C) = C
+C
+C
+find(C) = C
+Edge: B <-> C
+find(B) = B
+find(C) = C
+B <-> C added
+find(B) = B
+find(C) = C
+E - F
+F - G
+C - D
+D - E
+H - E
+G - A
+B - C
+msT distance: 87
+msT size: 7
+G numEdges: 11

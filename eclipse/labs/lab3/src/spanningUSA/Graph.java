@@ -88,37 +88,21 @@ public class Graph {
 	}
 	
 	public LinkedHashSet<Edge> Kruskal() {
-		Iterator<Edge> it = edges.iterator();
-		Edge current = it.next();
-		Edge next;
-		while (it.hasNext()) {
-			next = it.next();
-			System.out.printf("Find0: %s - %s\n", current, next);
-			if (!find(current).equals(find(next))){
-				System.out.printf("Find1: %s - %s\n", find(current), find(next));
-				union(current, next);
-				msT.add(current);
-				msT.add(next);
-			} else {
-				System.out.println("Not added.");
+		for (Edge e : edges) {
+			System.out.printf("Edge: %s\n", e);
+			if (!find(e.getFirst()).equals(find(e.getSecond()))){
+				msT.add(e);
+				System.out.printf("%s added\n", e);	
+				union(e.getFirst(), e.getSecond());
 			}
-			System.out.printf("Nodes  : %s - %s\n", current, next);
-			System.out.printf("Parents: %s - %s\n\n", current.parent, next.parent);
-			current = next;
 		}
 		
 		return msT;
 	}
 	
-	private void union(Edge x, Edge y) {
-		//System.out.printf("Union1: %s u %s\n", x, y.parent);
-		Edge xRoot = find(x);
-		Edge yRoot = find(y);
-//		if (xRoot == yRoot) return;
-//		
-//		xRoot.parent = yRoot;
-		//System.out.printf("xRoot.p: %s, yRoot: %s\n", xRoot.parent, yRoot);
-		
+	private void union(Vertex x, Vertex y) {
+		Vertex xRoot = find(x);
+		Vertex yRoot = find(y);
 		
 		if (xRoot.equals(yRoot)) return;
 		
@@ -131,23 +115,25 @@ public class Graph {
 			yRoot.parent = xRoot;
 			xRoot.rank++;
 		}
-		
-		
 	}
 	
-	private Edge find(Edge e) {
-
-		while (!e.equals(e.parent)){
-			e = e.parent;
-		}
-		return e;
+	private Vertex find(Vertex e) {
+		System.out.printf("find(%s) = ", e);
+		if (!e.parent.equals(e))
+			e.parent = find(e.parent);
 		
-//		if (e.parent.equals(e)){
-//			System.out.println("e.parent == e");
+		System.out.printf("%s\n", e.parent);
+		return e.parent;
+		
+		//		while(!e.equals(e.parent)) {
+//			e = e.parent;
+//		}
+//		return e;
+		
+		//		if (e.parent.equals(e)){
 //			return e;
 //		}
 //		else {
-//			System.out.println("e.parent != e");
 //			return find(e.parent);
 //		}
 	}
