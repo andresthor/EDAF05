@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 import javafx.util.Pair;
 
@@ -16,7 +18,18 @@ public class spanningUSA {
 		addCities(br, G);
 		addPaths(br, G);
 		
-		System.out.println(G);
+		//System.out.println(G);
+		LinkedHashSet<Edge> msT = G.Kruskal();
+		
+		int distance = 0;
+		for (Edge e : msT) {
+			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
+			distance += e.length;
+		}
+		
+		System.out.printf("msT distance: %d\n", distance);
+		System.out.printf("msT size: %d\n", msT.size());
+		System.out.printf("G numEdges: %d\n", G.numEdges());
 		
 		
 		try {

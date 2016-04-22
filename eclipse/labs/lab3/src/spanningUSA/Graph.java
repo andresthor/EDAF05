@@ -1,7 +1,9 @@
 package spanningUSA;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
@@ -24,6 +26,8 @@ public class Graph {
 	private int myNumVertices;
 	private int myNumEdges;
 	
+	private LinkedHashSet<Edge> msT;
+	
 	/*
 	 * Construct new empty Graph
 	 */
@@ -32,6 +36,7 @@ public class Graph {
 		myVertices = new HashMap<String, Vertex>();
 		myNumVertices = myNumEdges = 0;
 		edges = new TreeSet<Edge>();
+		msT = new LinkedHashSet<Edge>();
 	}
 	
 	/*
@@ -80,6 +85,71 @@ public class Graph {
 		}
 		
 		return false;
+	}
+	
+	public LinkedHashSet<Edge> Kruskal() {
+		Iterator<Edge> it = edges.iterator();
+		Edge current = it.next();
+		Edge next;
+		while (it.hasNext()) {
+			next = it.next();
+			System.out.printf("Find0: %s - %s\n", current, next);
+			if (!find(current).equals(find(next))){
+				System.out.printf("Find1: %s - %s\n", find(current), find(next));
+				union(current, next);
+				msT.add(current);
+				msT.add(next);
+			} else {
+				System.out.println("Not added.");
+			}
+			System.out.printf("Nodes  : %s - %s\n", current, next);
+			System.out.printf("Parents: %s - %s\n\n", current.parent, next.parent);
+			current = next;
+		}
+		
+		return msT;
+	}
+	
+	private void union(Edge x, Edge y) {
+		//System.out.printf("Union1: %s u %s\n", x, y.parent);
+		Edge xRoot = find(x);
+		Edge yRoot = find(y);
+//		if (xRoot == yRoot) return;
+//		
+//		xRoot.parent = yRoot;
+		//System.out.printf("xRoot.p: %s, yRoot: %s\n", xRoot.parent, yRoot);
+		
+		
+		if (xRoot.equals(yRoot)) return;
+		
+		// x and y are not in the same set, merge them
+		if (xRoot.rank < yRoot.rank)
+			xRoot.parent = yRoot;
+		else if (xRoot.rank > yRoot.rank)
+			yRoot.parent = xRoot;
+		else {
+			yRoot.parent = xRoot;
+			xRoot.rank++;
+		}
+		
+		
+	}
+	
+	private Edge find(Edge e) {
+
+		while (!e.equals(e.parent)){
+			e = e.parent;
+		}
+		return e;
+		
+//		if (e.parent.equals(e)){
+//			System.out.println("e.parent == e");
+//			return e;
+//		}
+//		else {
+//			System.out.println("e.parent != e");
+//			return find(e.parent);
+//		}
 	}
 	
 	private void makeNeighbors(Vertex v1, Vertex v2) {

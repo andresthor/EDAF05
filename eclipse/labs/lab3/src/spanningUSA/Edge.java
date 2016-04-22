@@ -2,13 +2,17 @@ package spanningUSA;
 
 public class Edge implements Comparable<Edge> {
 	private Vertex v1, v2;
-	int length;
+	public int length;
+	public Edge parent;
+	public int rank;
 	
 	
 	public Edge(Vertex v1, Vertex v2, int length) {
 		this.v1 = v1;
 		this.v2 = v2;
 		this.length = length;
+		parent = this;
+		rank = 1;
 	}
 	
 	public boolean equals(Edge other) {
@@ -39,6 +43,6 @@ public class Edge implements Comparable<Edge> {
 	}
 	
 	public String toString() {
-		return v1 + " - " + v2;
+		return v1 + " <-> " + v2;
 	}
 }
