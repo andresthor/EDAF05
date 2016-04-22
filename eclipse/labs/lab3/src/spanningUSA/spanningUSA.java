@@ -23,22 +23,22 @@ public class spanningUSA {
 		}
 		addPaths(br, G);
 		
-		//System.out.println(G);
 		LinkedHashSet<Edge> msT = G.Kruskal();
 		
-		int distance = 0;
-		for (Edge e : msT) {
-			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
-			distance += e.length;
-		}
+//		int distance = 0;
+//		for (Edge e : msT) {
+//			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
+//			distance += e.length;
+//		}
 		
 		//G.printVertices();
 		
-		System.out.printf("\nmsT distance: %d\n", distance);
-		System.out.printf("msT size: %d\n", msT.size());
-		System.out.printf("G numVert: %d\n", G.numVertices());
-		System.out.printf("G numEdges: %d\n", G.numEdges());
+//		System.out.printf("\nmsT distance: %d\n", distance);
+//		System.out.printf("msT size: %d\n", msT.size());
+//		System.out.printf("G numVert: %d\n", G.numVertices());
+//		System.out.printf("G numEdges: %d\n", G.numEdges());
 		
+		System.out.println(G);
 		
 		try {
 			br.close();
@@ -134,10 +134,5 @@ public class spanningUSA {
 		}
 
 		return br;
-	}
-	
-	private static boolean printDistance(String c1, String c2, Graph G) {
-		System.out.printf("%s -> %s = %d\n", c1, c2, G.getDistance(c1,  c2));
-		return true;
 	}
 }

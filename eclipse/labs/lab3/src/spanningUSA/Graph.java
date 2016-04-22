@@ -1,18 +1,11 @@
 package spanningUSA;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
-
-import javafx.util.Pair;
 
 /**  
  * Initializes a graph from an input stream.
@@ -30,6 +23,7 @@ public class Graph {
 	private TreeSet<Edge> edges;
 	private int myNumVertices;
 	private int myNumEdges;
+	private int msTDistance = 0;
 	
 	private LinkedHashSet<Edge> msT;
 	
@@ -51,14 +45,10 @@ public class Graph {
 	 */
 	
 	public Vertex addVertex(String name) {
-		String name2 = "";//name.trim();
 		name = name.trim();
+		
 		Vertex v;
 		v = myVertices.get(name);
-		
-		if (name2.equals("Ravenna ")) {
-			System.out.printf("#%s# vs #%s\n", name, name2);
-		}
 		if (v == null) {
 			v = new Vertex(name);
 			myVertices.put(name, v);
@@ -77,11 +67,6 @@ public class Graph {
 		return myVertices.containsKey(name);
 	}
 	
-	public boolean hasEdge(String from, String to) {
-
-		return false;
-	}
-	
 	public boolean addEdge(String from, String to, int distance) {
 		Vertex f, t;
 		if ((f = getVertex(from)) == null)
@@ -96,16 +81,6 @@ public class Graph {
 			myNumEdges++;
 			makeNeighbors(f, t);
 			return true;
-		} else {
-			Edge culp = null;
-			for (Edge tmp : edges) {
-				if (tmp.equals(e)) culp = tmp;
-			}
-			System.out.printf("not added: %s <-> %s\n", e.getFirst(), e.getSecond());
-			if (culp != null)
-				System.out.printf("culprit: %s <-> %s\n\n", culp.getFirst(), culp.getSecond());
-			else
-				System.out.println("No culprit found");
 		}
 		
 		return false;
@@ -113,11 +88,9 @@ public class Graph {
 	
 	public LinkedHashSet<Edge> Kruskal() {
 		for (Edge e : edges) {
-			//System.out.printf("Edge: %s - size: %d\n", e, e.length);
 			if (!find(e.getFirst()).equals(find(e.getSecond()))){
 				msT.add(e);
-				//System.out.printf("%s added\n", e);
-				//System.out.printf("%s + \n", e.length);
+				msTDistance += e.length;
 				union(e.getFirst(), e.getSecond());
 			}
 		}
@@ -125,58 +98,32 @@ public class Graph {
 	}
 	
 	private void union(Vertex x, Vertex y) {
-//		Vertex xRoot = find(x);
-//		Vertex yRoot = find(y);
-//		
-//		if (xRoot.equals(yRoot)) return;
-//		
-//		// x and y are not in the same set, merge them
-//		if (xRoot.rank < yRoot.rank)
-//			xRoot.parent = yRoot;
-//		else if (xRoot.rank > yRoot.rank)
-//			yRoot.parent = xRoot;
-//		else {
-//			yRoot.parent = xRoot;
-//			xRoot.rank++;
-//		}
 		Vertex xRoot = find(x);
 		Vertex yRoot = find(y);
 		
-		xRoot.parent = yRoot;
+		if (xRoot.equals(yRoot)) return;
+		
+		// x and y are not in the same set, merge them
+		if (xRoot.rank < yRoot.rank)
+			xRoot.parent = yRoot;
+		else if (xRoot.rank > yRoot.rank)
+			yRoot.parent = xRoot;
+		else {
+			yRoot.parent = xRoot;
+			xRoot.rank++;
+		}
 	}
 	
 	private Vertex find(Vertex e) {
-		//System.out.printf("find(%s) = ", e);
-//		if (!e.parent.equals(e))
-//			e.parent = find(e.parent);
-//		
-//		return e.parent;
+		if (!e.parent.equals(e))
+			e.parent = find(e.parent);
 		
-		if (e.parent.equals(e))
-			return e;
-		else
-			return find(e.parent);
+		return e.parent;
 	}
 	
 	private void makeNeighbors(Vertex v1, Vertex v2) {
 		neighbors.get(v1).add(v2);
 		neighbors.get(v2).add(v1);
-	}
-	
-	public int getDistance(String from, String to) {
-
-		return -1;
-	}
-	
-	/**
-	 * Returns an Iterator over Vertices in Graph.
-	 * @param v
-	 * @return an Iterator over all Vertices in Graph
-	 */
-	public Iterable<Vertex> adjacentTo(Vertex v) {
-		if (!neighbors.containsKey(v))
-			return EMPTY_SET;
-		return neighbors.get(v);
 	}
 	
 	public Iterable<Vertex> getVertices() {
@@ -202,28 +149,26 @@ public class Graph {
 			s += "\n";
 		}
 		
-		String t = "";
+		String t = "\n";
 		t += "EDGES\n";
 		for (Edge e : edges) {
 			t += e.toString() + " : " + e.length + "\n";
 		}
 		
-		
-		return s + t;
+		try {
+			String info = "\n";
+			info += "INFO\n";
+			info += "nbr. vertices: " + numVertices() + "\n";
+			info += "nbr. edges   : " + numEdges() + "\n";
+			info += "msT distance : " + msTDistance;
+			
+			return s + t + info;
+		} catch (Exception e) {
+			return s + t;
+		}
 	}
 	
 	public void printVertices() {
-//		List<String> vList = new ArrayList<String>();
-//		for (Vertex v : myVertices.values()) {
-//			vList.add(v.name);
-//		}
-//		Collections.sort(vList);
-//		
-//		int n = 1;
-//		for (String s : vList) {
-//			System.out.printf("%d. \"%s\"\n", n, s);
-//			n++;
-//		}
 		
 		List<Vertex> vList2 = new ArrayList<Vertex>();
 		for (Vertex v : myVertices.values()) {

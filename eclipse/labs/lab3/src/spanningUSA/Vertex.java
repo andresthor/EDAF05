@@ -12,7 +12,7 @@ public class Vertex implements Comparable<Vertex>{
 	public int rank;
 	
 	public Vertex(String v) {
-		name = v.trim();
+		name = v;
 		parent = this;
 		rank = 0;
 	}
