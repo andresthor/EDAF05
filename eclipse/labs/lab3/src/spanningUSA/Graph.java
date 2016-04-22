@@ -49,7 +49,6 @@ public class Graph {
 	 * @param name
 	 * 				vertex to be added
 	 */
-	private int tmp = 0;
 	
 	public Vertex addVertex(String name) {
 		String name2 = "";//name.trim();
@@ -91,10 +90,22 @@ public class Graph {
 			t = addVertex(to);
 		
 		Edge e = new Edge(f, t, distance);
+		if (myNumEdges == 104)
+			myNumEdges = 104;
 		if (edges.add(e)) {
 			myNumEdges++;
 			makeNeighbors(f, t);
 			return true;
+		} else {
+			Edge culp = null;
+			for (Edge tmp : edges) {
+				if (tmp.equals(e)) culp = tmp;
+			}
+			System.out.printf("not added: %s <-> %s\n", e.getFirst(), e.getSecond());
+			if (culp != null)
+				System.out.printf("culprit: %s <-> %s\n\n", culp.getFirst(), culp.getSecond());
+			else
+				System.out.println("No culprit found");
 		}
 		
 		return false;
@@ -102,53 +113,49 @@ public class Graph {
 	
 	public LinkedHashSet<Edge> Kruskal() {
 		for (Edge e : edges) {
-			//System.out.printf("Edge: %s\n", e);
+			//System.out.printf("Edge: %s - size: %d\n", e, e.length);
 			if (!find(e.getFirst()).equals(find(e.getSecond()))){
 				msT.add(e);
-				//System.out.printf("%s added\n", e);	
+				//System.out.printf("%s added\n", e);
+				//System.out.printf("%s + \n", e.length);
 				union(e.getFirst(), e.getSecond());
 			}
 		}
-		
 		return msT;
 	}
 	
 	private void union(Vertex x, Vertex y) {
+//		Vertex xRoot = find(x);
+//		Vertex yRoot = find(y);
+//		
+//		if (xRoot.equals(yRoot)) return;
+//		
+//		// x and y are not in the same set, merge them
+//		if (xRoot.rank < yRoot.rank)
+//			xRoot.parent = yRoot;
+//		else if (xRoot.rank > yRoot.rank)
+//			yRoot.parent = xRoot;
+//		else {
+//			yRoot.parent = xRoot;
+//			xRoot.rank++;
+//		}
 		Vertex xRoot = find(x);
 		Vertex yRoot = find(y);
 		
-		if (xRoot.equals(yRoot)) return;
-		
-		// x and y are not in the same set, merge them
-		if (xRoot.rank < yRoot.rank)
-			xRoot.parent = yRoot;
-		else if (xRoot.rank > yRoot.rank)
-			yRoot.parent = xRoot;
-		else {
-			yRoot.parent = xRoot;
-			xRoot.rank++;
-		}
+		xRoot.parent = yRoot;
 	}
 	
 	private Vertex find(Vertex e) {
 		//System.out.printf("find(%s) = ", e);
-		if (!e.parent.equals(e))
-			e.parent = find(e.parent);
+//		if (!e.parent.equals(e))
+//			e.parent = find(e.parent);
+//		
+//		return e.parent;
 		
-		//System.out.printf("%s\n", e.parent);
-		return e.parent;
-		
-		//		while(!e.equals(e.parent)) {
-//			e = e.parent;
-//		}
-//		return e;
-		
-		//		if (e.parent.equals(e)){
-//			return e;
-//		}
-//		else {
-//			return find(e.parent);
-//		}
+		if (e.parent.equals(e))
+			return e;
+		else
+			return find(e.parent);
 	}
 	
 	private void makeNeighbors(Vertex v1, Vertex v2) {

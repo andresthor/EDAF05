@@ -32,7 +32,7 @@ public class spanningUSA {
 			distance += e.length;
 		}
 		
-		G.printVertices();
+		//G.printVertices();
 		
 		System.out.printf("\nmsT distance: %d\n", distance);
 		System.out.printf("msT size: %d\n", msT.size());
