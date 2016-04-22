@@ -15,7 +15,12 @@ public class spanningUSA {
 		BufferedReader br = readFile(args[0]);
 		Graph G = new Graph();
 		
-		addCities(br, G);
+		try {
+			addCities(br, G);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		addPaths(br, G);
 		
 		System.out.println(G);
@@ -68,7 +73,7 @@ public class spanningUSA {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
+			System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
 			//cities[0] = cities[0].replace(' ', '#');
 			//cities[1] = cities[1].replace(' ', '#');
 			G.addEdge(cities[0],  cities[1], distance);
@@ -88,8 +93,9 @@ public class spanningUSA {
 	/*
 	 * Read word on every line on input file and add to graph.
 	 */
-	private static void addCities(BufferedReader br, Graph G) {
+	private static void addCities(BufferedReader br, Graph G) throws IOException {
 		String word = null;
+		br.mark(100);
 		while (true) {
 			try {
 				word = br.readLine();
@@ -101,10 +107,13 @@ public class spanningUSA {
 				break;
 			} else if (word.endsWith("]")) {
 				// we've reached the start of the distance part of the file
+				br.reset();
 				return;
 			} else {
 				word = removeQuote(word);
 			}
+			
+			br.mark(0);
 			//System.out.println(word);
 			//word.replace(' ', '#');
 			G.addVertex(word);
