@@ -70,7 +70,7 @@ public class pairsOnAPlane {
 		Pattern comm 	= Pattern.compile("COMMENT\\s*:\\s*([\\w\\s]+)");
 		Pattern dims	= Pattern.compile("DIMENSION\\s*:\\s*([\\d+]+)");
 		Pattern numb 	= Pattern.compile("[+-]?(\\w+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)");
-
+		Pattern simp    = Pattern.compile("(\\w+)\\s*(\\d+)\\s*(\\d+)");
 		
 		Matcher matcher;
 		
@@ -105,9 +105,16 @@ public class pairsOnAPlane {
 				 * where <vertex> is usually a number, but can be a string and
 				 * <x,y> are numbers, which will be stored as doubles.
 				 */
+				boolean matched = false;
+				
 				matcher = numb.matcher(line);
-				if (matcher.find()) {
-					String tmp = matcher.group(0);
+				matched = matcher.find();
+				if (!matched) {		// found match directly
+					matcher = simp.matcher(line);
+					matched = matcher.find();
+				}
+				
+				if (matched) {		// still migth be a 'close-pairs-*-in file
 					double x = Double.parseDouble(matcher.group(2));
 					double y = Double.parseDouble(matcher.group(3));
 					p.addEntry(matcher.group(1), x, y);
