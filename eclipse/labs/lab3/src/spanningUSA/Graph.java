@@ -125,32 +125,11 @@ public class Graph {
 	}
 	
 	public String toString() {
-		String s = "";
-//		s += "VERTICES:\n";
-//		for (Vertex v : myVertices.values()) {
-//			s += v + ": ";
-//			for (Vertex w : neighbors.get(v)) {
-//				s += w + " ";
-//			}
-//			s += "\n";
-//		}
-//		
-		String t = "";
-//		t += "EDGES\n";
-//		for (Edge e : edges) {
-//			t += e.toString() + " : " + e.length + "\n";
-//		}
-		
-		try {
-			String info = "\n";
-			info += "INFO\n";
-			info += "nbr. vertices: " + numVertices() + "\n";
-			info += "nbr. edges   : " + numEdges() + "\n";
-			info += "msT distance : " + msTDistance;
-			
-			return s + t + info;
-		} catch (Exception e) {
-			return s + t;
-		}
+		String info = "\n";
+		info += "INFO\n";
+		info += "Number of vertices: " + numVertices() + "\n";
+		info += "Numbre of edges: " + numEdges() + "\n";
+		info += "Minimum spanning tree distance: " + msTDistance;
+		return info; 
 	}
 }

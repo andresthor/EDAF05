@@ -35,7 +35,7 @@ public class spanningUSA {
 		String t = "";
 		t += "EDGES\n";
 		for (Edge e : msT) {
-			t += e.toString() + " : " + e.length + "\n";
+			t += e.toString();
 		}
 		System.out.println(t);
 	}

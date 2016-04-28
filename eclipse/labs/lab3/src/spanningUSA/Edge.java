@@ -38,7 +38,7 @@ public class Edge implements Comparable {
 		return (int) this.v1.hashCode() * this.v2.hashCode();
 	}
 	
-	public Vertex getFirst(){
+	public Vertex getFirst() {
 		return v1;
 	}
 	
@@ -47,6 +47,9 @@ public class Edge implements Comparable {
 	}
 	
 	public String toString() {
-		return v1 + " <-> " + v2;
+		String s = String.format("%1$" + 15 + "s <-> %1$-15s :", v1, v2);
+		s += length;
+		s += "\n";
+		return s; //v1 + "\t" + "<-> " + "\t" + v2;
 	}
 }
