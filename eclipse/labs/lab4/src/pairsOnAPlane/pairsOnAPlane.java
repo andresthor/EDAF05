@@ -18,8 +18,10 @@ public class pairsOnAPlane {
 		/* Try to create a set of problems from the input files */
 		ArrayList<PairProblem> problems = readFiles(args);
 		
+		int i = 0;
 		for (PairProblem p : problems) {
 			System.out.println(p.solveDivideConquer());
+			System.out.printf("%d: ", ++i);
 			System.out.printf(	"%s\nminDist = %f\n\n",
 									p.name.equals("") ? p.file : p.name,
 									p.solveNaive());
