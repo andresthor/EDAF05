@@ -15,7 +15,12 @@ public class pairsOnAPlane {
 			System.out.println("Usage: pairsOnAPlane <inputFile1> <inputFile2> ... <inputFileN>");
 		}
 		
+		/* Try to create a set of problems from the input files */
 		ArrayList<PairProblem> problems = readFiles(args);
+		
+//		for (PairProblem p : problems) {
+//			p.solveNaive();
+//		}
 	}
 
 	
@@ -43,8 +48,7 @@ public class pairsOnAPlane {
 				e1.printStackTrace();
 				System.exit(1);
 			}			
-			
-			
+					
 			/* Try to close the file */
 			try {
 				br.close();
