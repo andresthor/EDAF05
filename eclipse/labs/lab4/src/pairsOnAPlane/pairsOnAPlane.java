@@ -19,7 +19,9 @@ public class pairsOnAPlane {
 		ArrayList<PairProblem> problems = readFiles(args);
 		
 		for (PairProblem p : problems) {
-			System.out.printf("%s\nminDist = %f\n\n", p.name, p.solveNaive());
+			System.out.printf(	"%s\nminDist = %f\n\n",
+									p.name.equals("") ? p.file : p.name,
+									p.solveNaive());
 		}
 	}
 
@@ -69,18 +71,20 @@ public class pairsOnAPlane {
 		Pattern name	= Pattern.compile("NAME\\s*:\\s*([\\w\\s]+)");
 		Pattern comm 	= Pattern.compile("COMMENT\\s*:\\s*([\\w\\s]+)");
 		Pattern dims	= Pattern.compile("DIMENSION\\s*:\\s*([\\d+]+)");
-		Pattern numb 	= Pattern.compile("[+-]?(\\w+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)");
+		Pattern numb 	= Pattern.compile("[+-]?(\\w+)\\s*([+-]?\\d+\\.?"
+										+ "\\d*[eE]?[+-]?\\d+)\\s*([+-]?"
+										+ "\\d+\\.?\\d*[eE]?[+-]?\\d+)");
 		Pattern simp    = Pattern.compile("(\\w+)\\s*(\\d+)\\s*(\\d+)");
 		
 		Matcher matcher;
 		
-		boolean header = checkHeader(br);
+		boolean header = checkHeader(br);						// should we parse a header?
 		while (true) {
 			line = br.readLine();
 			if (line == null) break;
 			
 			if (header) {
-				if (line.equals("NODE_COORD_SECTION")) {		// last line of headers has been hit
+				if (line.equals("NODE_COORD_SECTION")) {// last line of headers has been hit
 					header = false;
 					continue;
 				}
@@ -114,16 +118,14 @@ public class pairsOnAPlane {
 					matched = matcher.find();
 				}
 				
-				if (matched) {		// still migth be a 'close-pairs-*-in file
+				if (matched) {		// still might be a 'close-pairs-*-in file
 					double x = Double.parseDouble(matcher.group(2));
 					double y = Double.parseDouble(matcher.group(3));
 					p.addEntry(matcher.group(1), x, y);
 				}
 			}
-			
-			
 		}
-		System.out.println(p);
+		//System.out.println(p);
 		//System.out.println(p.print());
 		return p;
 	}
