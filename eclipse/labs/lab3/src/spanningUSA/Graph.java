@@ -126,7 +126,7 @@ public class Graph {
 	
 	public String toString() {
 		String info = "\n";
-		info += "INFO\n";
+		info += "INFO \n";
 		info += "Number of vertices: " + numVertices() + "\n";
 		info += "Numbre of edges: " + numEdges() + "\n";
 		info += "Minimum spanning tree distance: " + msTDistance;
