@@ -8,7 +8,7 @@
 \pagestyle{empty}
 
 
-\title{Stable Matching Report}
+\title{Closest Pair Report}
 \author{Alice Cooper and Bob Marley}
 
 \begin{document}
@@ -16,8 +16,8 @@
 
   \section{Results}
 
-  Our implementation produces the expected results on all input--output file pairs, except {\tt sm-random-100.txt}, where it matches 54 with 12 instead of 2.
-  We have no idea why this happens.%
+  Our implementation produces the expected results on all input--output file pairs, except {\tt slotermeier-23-tsp.txt}, where our code reports distance 2.531 as the shortest distance.
+  This may be because of rounding errors, or differences between {\tt float} and {\tt double} on various machines.
   \sidenote{%
   Complete the report by filling in your correct names,
   filling in the parts marked $[\ldots]$,
@@ -26,24 +26,34 @@
   Remove the sidenotes in your final hand-in.
   }
 
-  On input {\tt sm-bbt-in.txt}, we produce the following matching:
-  \begin{quotation}
-    Sheldon--Amy, Rajesh--Penny, Howard--Bernadette, Leonard--Priya.  \sidenote{Replace with your results.}
-  \end{quotation}
+  The following table shows the closest pairs in the input files {\tt wc-instance-*.txt}.
+  Here $n$ denotes the number of points in the input,
+  and $(u,v)$ denotes a closest pair of points at distance $\delta$.
+
+  \bigskip\noindent
+  \begin{tabular}{rrrr}\toprule
+    $n$ & $u$ & $v$ & $\delta$ \\\midrule
+    2 & 0 & 1 & 1 \\
+    $[\ldots]$ \\\bottomrule
+  \end{tabular}
+
 
   \section{Implementation details}
 
-  The men's preferences are stored in a left-leaning red--black B-tree with $B=12$ and no inverse anti-snails,%
-  \sidenote{Replace with whatever data structure you actually use.}
-   as described in Section 5.2 of Kleinberg and Tardos, \emph{Algorithms Design}, Addison--Wesley 2013.%
-   \sidenote{If you refer to something, like a book or a stackexchange debate, or an external library, be professional about it.}
-  The women's preferences are stored in a heap.\sidenote{Replace with whatever data structure you actually use.}
+  We resort by $y$-coordinates in each recursive step.
 
-  We can check find a free man who has not proposed to every woman in time $[\ldots]$,
-  because we store $[\ldots]$.
+  For the comparison of points close to $s$ in $S_y$ we inspect 15 points,
+  as explained (5.10) of Kleinberg and Tardos, \emph{Algorithm Design}, Addison--Wesley 2008.
+  Here is the corresponding part of our code:
+  \begin{verbatim}
+    min = [...]
+    for (s [...]
+      for [...]
+        if (s.distance(...) < min) [...]
+  \end{verbatim}
 
-  With these data structures, our implementation runs in time $O(n\log n)$  \sidenote{Replace with your actual running time.}
-  on inputs with $n$ men and $n$ women.
+  Our running time is $O(n\log n)$ for $n$ points.
+  \sidenote{Change or delete as necessary, add anything else you find interesting about your implemenation.}
 
 
 \end{document}
