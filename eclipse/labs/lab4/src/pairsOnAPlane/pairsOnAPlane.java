@@ -19,6 +19,7 @@ public class pairsOnAPlane {
 		ArrayList<PairProblem> problems = readFiles(args);
 		
 		for (PairProblem p : problems) {
+			System.out.println(p.solveDivideConquer());
 			System.out.printf(	"%s\nminDist = %f\n\n",
 									p.name.equals("") ? p.file : p.name,
 									p.solveNaive());

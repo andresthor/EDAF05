@@ -1,5 +1,7 @@
 package pairsOnAPlane;
 
+
+
 public class Point implements Comparable<Point> {
 	public double x;
 	public double y;
@@ -15,7 +17,8 @@ public class Point implements Comparable<Point> {
 	 */
 	@Override
 	public int compareTo(Point other) {
-		return (int) ( this.x - other.x );
+		int c = Double.compare(x, other.x);
+		return c;
 	}
 	
 	public double distanceTo(Point other) {
