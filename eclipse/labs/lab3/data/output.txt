@@ -1,0 +1,134 @@
+EDGES
+Wheeling <-> Steubenville : 25
+Seattle <-> Tacoma : 30
+Wausau <-> Stevens Point : 33
+Youngstown <-> Ravenna : 34
+Scranton <-> Stroudsburg : 42
+South Bend <-> Saint Joseph, MI : 44
+Sacramento <-> Stockton : 47
+San Francisco <-> San Jose : 47
+Worcester <-> Springfield : 50
+Syracuse <-> Utica : 51
+Tampa <-> Sarasota : 53
+Toledo <-> Sandusky : 54
+Santa Ana <-> San Bernardino : 54
+San Francisco <-> Santa Rosa : 55
+Springfield <-> Waterbury : 56
+Reading <-> Wilmington, DE : 57
+Terre Haute <-> Vincennes : 58
+San Jose <-> Salinas : 58
+Wausau <-> Rhinelander : 59
+Youngstown <-> Steubenville : 60
+Trenton <-> Wilmington, DE : 60
+Valdosta <-> Waycross : 63
+Springfield, OH <-> Richmond, IN : 64
+Sioux City <-> Yankton : 67
+Trenton <-> Stroudsburg : 69
+Wheeling <-> Uniontown : 69
+Syracuse <-> Watertown : 71
+Rockford <-> Waukegan : 72
+Shreveport <-> Texarkana : 73
+Washington <-> Winchester : 73
+Saint Paul <-> Saint Cloud : 75
+Stevens Point <-> Wisconsin Dells : 78
+Utica <-> Schenectady : 78
+San Jose <-> Stockton : 80
+Saint Paul <-> Rochester, MN : 80
+Tallahassee <-> Valdosta : 82
+Sioux Falls <-> Yankton : 82
+Tuscaloosa <-> Selma : 85
+Topeka <-> Saint Joseph : 85
+Wichita <-> Salina : 87
+Roanoke <-> Staunton : 88
+Rochester <-> Syracuse : 88
+Schenectady <-> Rutland : 90
+San Diego <-> Santa Ana : 90
+Staunton <-> Winchester : 93
+Scranton <-> Williamsport : 93
+Sandusky <-> Ravenna : 93
+Savannah <-> Swainsboro : 94
+Tulsa <-> Seminole : 95
+Shreveport <-> Tyler : 99
+Saint Louis <-> Springfield, IL : 102
+Rutland <-> Saint Johnsbury : 103
+Wilmington, DE <-> Salisbury : 103
+Waycross <-> Swainsboro : 105
+Red Bluff <-> Weed : 105
+Springfield <-> Schenectady : 106
+Winston-Salem <-> Roanoke : 109
+Washington <-> Wilmington, DE : 109
+Washington <-> Richmond : 110
+San Antonio <-> Victoria : 113
+Waterloo <-> Rochester, MN : 115
+Waycross <-> Saint Augustine : 115
+Springfield, MO <-> Sedalia : 115
+Yakima <-> Wenatchee : 117
+Sioux Falls <-> Watertown, SD : 117
+Wichita Falls <-> Sherman : 117
+Youngstown <-> Warren : 118
+Richmond <-> Rocky Mount : 120
+Rockford <-> Wisconsin Dells : 122
+Topeka <-> Salina : 123
+South Bend <-> Waukegan : 126
+Tuscaloosa <-> Tupelo : 126
+Scottsbluff <-> Sterling : 126
+Toledo <-> Springfield, OH : 127
+Sherman <-> Seminole : 127
+Wilmington <-> Rocky Mount : 127
+Santa Ana <-> Santa Barbara : 128
+Sacramento <-> Red Bluff : 131
+Yakima <-> Walla Walla : 132
+Waco <-> Tyler : 134
+Winchester <-> Uniontown : 134
+Tyler <-> Sherman : 135
+Tacoma <-> Yakima : 138
+Terre Haute <-> Richmond, IN : 138
+Sacramento <-> Reno : 139
+Syracuse <-> Scranton : 140
+Toledo <-> Saginaw : 140
+Saint Joseph <-> Sedalia : 142
+Springfield, IL <-> Terre Haute : 143
+Seattle <-> Vancouver : 145
+Toledo <-> South Bend : 148
+Saginaw <-> Traverse City : 150
+Savannah <-> Sumter : 156
+Salida <-> Trinidad : 157
+Wilmington <-> Sumter : 157
+Spokane <-> Walla Walla : 160
+Toronto <-> Rochester : 161
+Salt Lake City <-> Richfield : 164
+Rochester, MN <-> Wisconsin Dells : 166
+Saint Cloud <-> Watertown, SD : 169
+Traverse City <-> Sault Sainte Marie : 170
+San Antonio <-> Waco : 181
+Tampa <-> Saint Augustine : 183
+Shreveport <-> Vicksburg : 186
+Regina <-> Williston : 188
+Tulsa <-> Wichita : 190
+Saint Louis <-> Sedalia : 192
+Santa Fe <-> Trinidad : 193
+Watertown, SD <-> Valley City : 195
+Salt Lake City <-> Rock Springs : 196
+Santa Fe <-> Roswell : 196
+West Palm Beach <-> Sarasota : 198
+Tacoma <-> Salem : 211
+Roanoke <-> Williamson : 213
+San Antonio <-> San Angelo : 218
+Vicksburg <-> Tupelo : 230
+Salt Lake City <-> Twin Falls : 236
+Salinas <-> Santa Barbara : 236
+Salida <-> Sterling : 271
+Winnipeg <-> Valley City : 278
+San Angelo <-> Roswell : 320
+Salem <-> Weed : 324
+Sheridan <-> Scottsbluff : 344
+Williston <-> Valley City : 357
+Rock Springs <-> Scottsbluff : 358
+Twin Falls <-> Walla Walla : 418
+San Diego <-> Tucson : 423
+
+
+INFO
+nbr. vertices: 128
+nbr. edges   : 8128
+msT distance : 16598
