@@ -9,16 +9,24 @@ import java.util.LinkedHashSet;
 public class spanningUSA {
 
 	public static void main(String[] args) {
+		/*
+		 *	Build the graph
+		 */
 		BufferedReader br = readFile(args[0]);
 		Graph G = new Graph();
 		
 		try {
 			addCities(br, G);
+			addPaths(br, G);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			System.exit(1);
 		}
-		addPaths(br, G);
 		
+		
+		/*
+		 *	Run Kruskal's msT and print out
+		 */
 		LinkedHashSet<Edge> msT = G.Kruskal();
 		
 		print(msT);
@@ -40,6 +48,10 @@ public class spanningUSA {
 		System.out.println(t);
 	}
 
+	/* 	Reads from input file and add paths according to the scheme
+	 *  			City1--City2 [pathLength]
+	 *  where the cities can be multiple words enclosed in ""
+	 */
 	private static void addPaths(BufferedReader br, Graph G) {
 		String line = null;
 		while (true) {
@@ -72,6 +84,7 @@ public class spanningUSA {
 		}
 	}
 	
+	/*	Helper function that removes "" from the start and end of strings */
 	private static String removeQuote(String input) {
 		if (input.startsWith("\"")){
 			int i = input.indexOf('\"');
@@ -110,6 +123,7 @@ public class spanningUSA {
 		}
 	}
 
+	/* Uses a bufferedReader to try to open a file @ fileName */
 	private static BufferedReader readFile(String fileName) {
 		BufferedReader br = null;
 		try {
