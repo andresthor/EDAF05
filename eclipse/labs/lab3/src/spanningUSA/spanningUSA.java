@@ -41,7 +41,10 @@ public class spanningUSA {
 
 	private static void print(LinkedHashSet<Edge> msT) {
 		String t = "";
-		t += "EDGES\n";
+		t += String.format("%1$15s     ", "Edge");
+		t += String.format("%1$-18s", "Edge");
+		t += "Distance";
+		t += "\n";
 		for (Edge e : msT) {
 			t += e.toString();
 		}

@@ -47,7 +47,8 @@ public class Edge implements Comparable {
 	}
 	
 	public String toString() {
-		String s = String.format("%1$" + 15 + "s <-> %1$-15s :", v1, v2);
+		String s = String.format("%1$15s", v1);
+		s += String.format(" <-> %1$-17s :", v2);
 		s += length;
 		s += "\n";
 		return s; //v1 + "\t" + "<-> " + "\t" + v2;
