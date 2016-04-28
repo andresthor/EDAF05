@@ -18,9 +18,9 @@ public class pairsOnAPlane {
 		/* Try to create a set of problems from the input files */
 		ArrayList<PairProblem> problems = readFiles(args);
 		
-//		for (PairProblem p : problems) {
-//			p.solveNaive();
-//		}
+		for (PairProblem p : problems) {
+			System.out.printf("%s\nminDist = %f\n\n", p.name, p.solveNaive());
+		}
 	}
 
 	
@@ -69,12 +69,12 @@ public class pairsOnAPlane {
 		Pattern name	= Pattern.compile("NAME\\s*:\\s*([\\w\\s]+)");
 		Pattern comm 	= Pattern.compile("COMMENT\\s*:\\s*([\\w\\s]+)");
 		Pattern dims	= Pattern.compile("DIMENSION\\s*:\\s*([\\d+]+)");
-		Pattern numb 	= Pattern.compile("[+-]?(\\d+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)");
+		Pattern numb 	= Pattern.compile("[+-]?(\\w+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)\\s*([+-]?\\d+\\.?\\d*[eE]?[+-]?\\d+)");
 
 		
 		Matcher matcher;
 		
-		boolean header = true;
+		boolean header = checkHeader(br);
 		while (true) {
 			line = br.readLine();
 			if (line == null) break;
@@ -117,7 +117,24 @@ public class pairsOnAPlane {
 			
 		}
 		System.out.println(p);
-		System.out.println(p.print());
+		//System.out.println(p.print());
 		return p;
+	}
+	
+	private static boolean checkHeader(BufferedReader br) throws IOException {
+		/* We only check the first 15 lines to see if we find
+		 * a line that splits headers from data. If it's not there,
+		 * then most likely this file has no header
+		 */
+		br.mark(256);
+		for (int i = 0; i < 15; i++) {
+			String line = br.readLine();
+			if (line != null && line.equals("NODE_COORD_SECTION")) {
+				br.reset();
+				return true;
+			}
+		}
+		br.reset();
+		return false;
 	}
 }

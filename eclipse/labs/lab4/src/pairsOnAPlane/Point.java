@@ -14,7 +14,11 @@ public class Point implements Comparable<Point> {
 	 * Orders points by increasing x values.
 	 */
 	@Override
-	public int compareTo(Point that) {
-		return (int) ( this.x - that.x );
+	public int compareTo(Point other) {
+		return (int) ( this.x - other.x );
+	}
+	
+	public double distanceTo(Point other) {
+		return Math.sqrt(Math.pow((this.x - other.x), 2) + Math.pow((this.y - other.y), 2));
 	}
 }
