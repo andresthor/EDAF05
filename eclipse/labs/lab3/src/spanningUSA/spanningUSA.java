@@ -5,9 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedHashSet;
-import java.util.TreeSet;
-
-import javafx.util.Pair;
 
 public class spanningUSA {
 
@@ -18,34 +15,29 @@ public class spanningUSA {
 		try {
 			addCities(br, G);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		addPaths(br, G);
 		
 		LinkedHashSet<Edge> msT = G.Kruskal();
 		
-//		int distance = 0;
-//		for (Edge e : msT) {
-//			//System.out.printf("%s - %s\n", e.getFirst(), e.getSecond());
-//			distance += e.length;
-//		}
-		
-		//G.printVertices();
-		
-//		System.out.printf("\nmsT distance: %d\n", distance);
-//		System.out.printf("msT size: %d\n", msT.size());
-//		System.out.printf("G numVert: %d\n", G.numVertices());
-//		System.out.printf("G numEdges: %d\n", G.numEdges());
-		
+		print(msT);
 		System.out.println(G);
 		
 		try {
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static void print(LinkedHashSet<Edge> msT) {
+		String t = "";
+		t += "EDGES\n";
+		for (Edge e : msT) {
+			t += e.toString() + " : " + e.length + "\n";
+		}
+		System.out.println(t);
 	}
 
 	private static void addPaths(BufferedReader br, Graph G) {
@@ -76,9 +68,6 @@ public class spanningUSA {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			//System.out.printf("%s - %s : %d\n", cities[0], cities[1], distance);
-			//cities[0] = cities[0].replace(' ', '#');
-			//cities[1] = cities[1].replace(' ', '#');
 			G.addEdge(cities[0],  cities[1], distance);
 		}
 	}
@@ -87,7 +76,7 @@ public class spanningUSA {
 		if (input.startsWith("\"")){
 			int i = input.indexOf('\"');
 			int k = input.lastIndexOf('\"');
-			input = input.substring(i + 1, k);			// removes quotes and trailing spaces
+			input = input.substring(i + 1, k);	// removes quotes and trailing spaces
 		}
 		
 		return input;
@@ -117,8 +106,6 @@ public class spanningUSA {
 			}
 			
 			br.mark(0);
-			//System.out.println(word);
-			//word.replace(' ', '#');
 			G.addVertex(word);
 		}
 	}

@@ -1,10 +1,7 @@
 package spanningUSA;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.TreeSet;
 
 /**  
@@ -17,12 +14,10 @@ import java.util.TreeSet;
  * @throws IndexOutOfBoundsException if the endpoints of any edge are not in prescribed range
  * @throws IllegalArgumentException if the number of vertices or edges is negaVertex*/
 public class Graph {
-	private static final TreeSet<Vertex> EMPTY_SET = new TreeSet<Vertex>();
-	private HashMap<Vertex, TreeSet<Vertex>> neighbors;
 	private HashMap<String, Vertex> myVertices;
 	private TreeSet<Edge> edges;
-	private int myNumVertices;
-	private int myNumEdges;
+	private int myNumVertices = 0;
+	private int myNumEdges = 0;
 	private int msTDistance = 0;
 	
 	private LinkedHashSet<Edge> msT;
@@ -31,9 +26,7 @@ public class Graph {
 	 * Construct new empty Graph
 	 */
 	public Graph() {
-		neighbors = new HashMap<Vertex, TreeSet<Vertex>>();
 		myVertices = new HashMap<String, Vertex>();
-		myNumVertices = myNumEdges = 0;
 		edges = new TreeSet<Edge>();
 		msT = new LinkedHashSet<Edge>();
 	}
@@ -52,7 +45,6 @@ public class Graph {
 		if (v == null) {
 			v = new Vertex(name);
 			myVertices.put(name, v);
-			neighbors.put(v, new TreeSet<Vertex>());
 			myNumVertices++;
 		}
 		return v;
@@ -79,7 +71,6 @@ public class Graph {
 			myNumEdges = 104;
 		if (edges.add(e)) {
 			myNumEdges++;
-			makeNeighbors(f, t);
 			return true;
 		}
 		
@@ -121,11 +112,6 @@ public class Graph {
 		return e.parent;
 	}
 	
-	private void makeNeighbors(Vertex v1, Vertex v2) {
-		neighbors.get(v1).add(v2);
-		neighbors.get(v2).add(v1);
-	}
-	
 	public Iterable<Vertex> getVertices() {
 		return myVertices.values();
 	}
@@ -140,20 +126,20 @@ public class Graph {
 	
 	public String toString() {
 		String s = "";
-		s += "VERTICES:\n";
-		for (Vertex v : myVertices.values()) {
-			s += v + ": ";
-			for (Vertex w : neighbors.get(v)) {
-				s += w + " ";
-			}
-			s += "\n";
-		}
-		
-		String t = "\n";
-		t += "EDGES\n";
-		for (Edge e : edges) {
-			t += e.toString() + " : " + e.length + "\n";
-		}
+//		s += "VERTICES:\n";
+//		for (Vertex v : myVertices.values()) {
+//			s += v + ": ";
+//			for (Vertex w : neighbors.get(v)) {
+//				s += w + " ";
+//			}
+//			s += "\n";
+//		}
+//		
+		String t = "";
+//		t += "EDGES\n";
+//		for (Edge e : edges) {
+//			t += e.toString() + " : " + e.length + "\n";
+//		}
 		
 		try {
 			String info = "\n";
@@ -165,21 +151,6 @@ public class Graph {
 			return s + t + info;
 		} catch (Exception e) {
 			return s + t;
-		}
-	}
-	
-	public void printVertices() {
-		
-		List<Vertex> vList2 = new ArrayList<Vertex>();
-		for (Vertex v : myVertices.values()) {
-			vList2.add(v);
-		}
-		Collections.sort(vList2);
-		
-		int n = 1;
-		for (Vertex v : vList2) {
-			System.out.printf("%d. \"%s\" : %s\n", n, v.name, v.hashCode());
-			n++;
 		}
 	}
 }

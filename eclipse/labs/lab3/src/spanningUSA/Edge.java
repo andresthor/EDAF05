@@ -17,14 +17,10 @@ public class Edge implements Comparable {
 	
 	public boolean equals(Object other) {
 		if (this == other) return true;
-		
 		if (other == null || other.getClass() != this.getClass()) return false;
 		
 		Edge that = (Edge) other;
 
-		/*
-		 * 		return (x1 = x2 && y1 = y2) || (x1 = y2 && y1 = x2)
-		 */
 		return (   (getFirst().equals(that.getFirst()) && getSecond().equals(that.getSecond()) 	)
 			     ||
 			       (getFirst().equals(that.getSecond()) && getSecond().equals(that.getFirst()))  );
@@ -36,7 +32,6 @@ public class Edge implements Comparable {
 		if (diff == 0)
 			return this.hashCode() - that.hashCode();
 		return diff;
-		//return this.length - that.length;
 	}
 	
 	public int hashCode() {
