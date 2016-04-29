@@ -13,6 +13,7 @@ public class PairProblem {
 	protected String 	comment;
 	protected int		dim;
 	private static double inf = Double.POSITIVE_INFINITY;
+	private static int bW = 7; //bandWidth
 	
 	ArrayList<Point> entries;
 	
@@ -131,8 +132,8 @@ public class PairProblem {
 				Point current = Py.get(i);
 				if ((current.x - mX.x) < delta) {	// if closer to line than delta
 					
-					int jMin = (i - 8 > 0) ? (i - 8) : 0;	// go through 16 nearest...
-					int jMax = (i + 8 < Py.size()) ? (i + 8) : Py.size();
+					int jMin = (i - bW > 0) ? (i - bW) : 0;	// go through 16 nearest...
+					int jMax = (i + bW < Py.size()) ? (i + bW) : Py.size();
 					
 					for (int j = jMin; j < jMax; j++) {		// ...on the y-axis
 						if (j == i) continue;

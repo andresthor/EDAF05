@@ -37,7 +37,7 @@
 ../../data/kroA200-tsp.txt: 200 10.295630140987
 ../../data/kroB100-tsp.txt: 100 26
 ../../data/kroB150-tsp.txt: 150 8.06225774829855
-../../data/kroB200-tsp.txt: 200 5
+../../data/kroB200-tsp.txt: 200 5B
 ../../data/kroC100-tsp.txt: 100 17.7200451466693
 ../../data/kroD100-tsp.txt: 100 11.6619037896906
 ../../data/kroE100-tsp.txt: 100 22.1359436211787
