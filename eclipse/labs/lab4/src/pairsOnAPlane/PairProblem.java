@@ -38,10 +38,10 @@ public class PairProblem {
 		entries.add(new Point(x, y));
 	}
 	
-	public double solveNaive() {
+	public double solveNaive(List<Point> input) {
 		double minDist = Double.MAX_VALUE;
-		for (Point p1 : entries) {
-			for (Point p2 : entries) {
+		for (Point p1 : input) {
+			for (Point p2 : input) {
 				if (p1 != p2) {
 					double currentDist = p1.distanceTo(p2);
 					if (currentDist < minDist) minDist = currentDist;
@@ -52,43 +52,110 @@ public class PairProblem {
 		return minDist;
 	}
 	
+	public double solveNaive() {
+		return solveNaive(entries);
+	}
+	
 	public double solveDivideConquer() {
-		ArrayList<Point> srtEntries = entries;
+		ArrayList<Point> srtEntriesX = entries;
+		ArrayList<Point> srtEntriesY = entries;
 		
 		/* Sorts in acsending order */
-		Collections.sort(srtEntries,new Comparator<Point>() {
+		Collections.sort(srtEntriesX,new Comparator<Point>() {
 			public int compare(Point o1, Point o2) {
 				return Double.compare(o1.x, o2.x);
 			}
 		});
 		
-		double minDist = closestPoints(srtEntries);
+		Collections.sort(srtEntriesY,new Comparator<Point>() {
+			public int compare(Point o1, Point o2) {
+				return Double.compare(o1.y, o2.y);
+			}
+		});
+		
+		double minDist = closestPoints(srtEntriesX, srtEntriesY);
 		return minDist; 
 	}
 	
 	/**
 	 * Recursive method that splits list into two and checks closest points.
+	 * @param srtY 
 	 */
-	private double closestPoints(List<Point> input) {
-		if (input.size() < 2) {
-			return inf;
-		}
-		if (input.size() == 2) {
-			return input.get(0).distanceTo(input.get(1));
+	private double closestPoints(List<Point> srtX, List<Point> srtY) {
+		if (srtX.size() <= 3) {
+			return solveNaive(srtX); // Does not matter which one
 		} else {
-			/* Split into two parts. Head is smaller if odd size. */
-			int middle = input.size() / 2;
-			List<Point> head = input.subList(0, middle);
-			List<Point> tail = input.subList(middle, input.size());
+			/* Split each into two parts. Head is smaller if odd size. */
+			int middleX = srtX.size() / 2;
+			int middleY = srtY.size() / 2;
+			List<Point> qX = srtX.subList(0, middleX);
+			List<Point> rX = srtX.subList(middleX, srtX.size());
+			List<Point> qY = srtY.subList(0, middleY);
+			List<Point> rY = srtY.subList(middleY, srtY.size());
 			
-			double minOver = head.get(head.size()-1).distanceTo(tail.get(0));
-			double minHead = closestPoints(head);
-			double minTail = closestPoints(tail);
+			double minQ = closestPoints(qX, qY);
+			double minR = closestPoints(rX, rY);
 			
-			double smallest = minOver;
-			if (smallest > minHead) smallest = minHead;
-			if (smallest > minTail) smallest = minTail;
-			return smallest;
+			//smallest distance so far
+			double delta = (minQ < minR) ? minQ : minR;
+			
+			// Finds points on the dividing line, put into L
+			Point pMaxQ = qX.get(qX.size() - 1); //Points closest to line.
+			List<Point> L = new ArrayList<Point>(); // List with points on line. 
+			L.add(pMaxQ);
+			for (int i = qX.size()-2; i >= 0; i--) {
+				if (qX.get(i).compareTo(pMaxQ) == 0)
+					L.add(qX.get(i));
+			}
+			
+			// Points within delta distance of points on line, put into S.
+			List<Point> S = new ArrayList<Point>();
+			for (Point pLine : L) {
+				int indexY = srtY.indexOf(pLine);
+				
+				for (int i = indexY; i < srtY.size() -1 ; i++) {
+					Point pUp 	= srtY.get(i);
+					if (pUp.equals(pLine))
+						break;
+					if (pUp.distanceTo(pLine) < delta)
+						S.add(pUp);
+					else 
+						break;
+				}
+				
+				for (int i = indexY-1; i >= 0; i--) {
+					Point pDn = srtY.get(i);
+					if (pDn.equals(pLine))
+						break;
+					if (pDn.distanceTo(pLine) < delta)
+						S.add(pDn);
+					else 
+						break;
+				}
+			}
+			
+			// Sort by y coordinte, ascending.
+			Collections.sort(S,new Comparator<Point>() {
+				public int compare(Point o1, Point o2) {
+					return Double.compare(o1.y, o2.y);
+				}
+			});
+			
+			// Find distance between points in S, compare max 15. 
+			double minDist = inf;
+			for (Point s : S) {
+				for (int i = S.indexOf(s); i < S.indexOf(s)+15; i++) {
+					if (i > S.size()-1)
+						break;
+					Point sPrime = S.get(i);
+					double thisDist = s.distanceTo(sPrime);
+					minDist = (minDist > thisDist) ? thisDist : minDist;
+				}
+			}
+			
+			// Find minimum of right, left and over border. 
+			minDist = (minDist > delta) ? delta : minDist;
+			return minDist;
 		}
 	}
 
