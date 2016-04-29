@@ -24,7 +24,7 @@ public class pairsOnAPlane {
 			System.out.printf("%d: ", ++i);
 			System.out.printf(	"%s\nminDist = %f\n\n",
 									p.name.equals("") ? p.file : p.name,
-									p.solveNaive());
+									p.solveNaiveDist());
 		}
 	}
 

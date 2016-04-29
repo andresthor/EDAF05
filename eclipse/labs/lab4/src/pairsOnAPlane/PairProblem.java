@@ -38,22 +38,31 @@ public class PairProblem {
 		entries.add(new Point(x, y));
 	}
 	
-	public double solveNaive(List<Point> input) {
+	public double solveNaiveDist(List<Point> input) {
+		Pair<Point, Point> pt = solveNaive(input);
+		return pt.getKey().distanceTo(pt.getValue());
+	}
+	
+	public Pair<Point, Point> solveNaive(List<Point> input) {
 		double minDist = Double.MAX_VALUE;
+		Pair<Point, Point> closest = null;
 		for (Point p1 : input) {
 			for (Point p2 : input) {
 				if (p1 != p2) {
 					double currentDist = p1.distanceTo(p2);
-					if (currentDist < minDist) minDist = currentDist;
+					if (currentDist < minDist) {
+						minDist = currentDist;
+						closest = new Pair<Point, Point>(p1, p2);
+					}
 				}
 			}
 		}
 		
-		return minDist;
+		return closest;
 	}
 	
-	public double solveNaive() {
-		return solveNaive(entries);
+	public double solveNaiveDist() {
+		return solveNaiveDist(entries);
 	}
 	
 	public double solveDivideConquer() {
@@ -83,7 +92,7 @@ public class PairProblem {
 	 */
 	private double closestPoints(List<Point> srtX, List<Point> srtY) {
 		if (srtX.size() <= 3) {
-			return solveNaive(srtX); // Does not matter which one
+			return solveNaiveDist(srtX); // Does not matter which one
 		} else {
 			/* Split each into two parts. Head is smaller if odd size. */
 			int middleX = srtX.size() / 2;
@@ -116,7 +125,7 @@ public class PairProblem {
 				for (int i = indexY; i < srtY.size() -1 ; i++) {
 					Point pUp 	= srtY.get(i);
 					if (pUp.equals(pLine))
-						break;
+						continue;
 					if (pUp.distanceTo(pLine) < delta)
 						S.add(pUp);
 					else 
@@ -126,7 +135,7 @@ public class PairProblem {
 				for (int i = indexY-1; i >= 0; i--) {
 					Point pDn = srtY.get(i);
 					if (pDn.equals(pLine))
-						break;
+						continue;
 					if (pDn.distanceTo(pLine) < delta)
 						S.add(pDn);
 					else 
@@ -144,7 +153,7 @@ public class PairProblem {
 			// Find distance between points in S, compare max 15. 
 			double minDist = inf;
 			for (Point s : S) {
-				for (int i = S.indexOf(s); i < S.indexOf(s)+15; i++) {
+				for (int i = S.indexOf(s) + 1; i < S.indexOf(s) + 16; i++) {
 					if (i > S.size()-1)
 						break;
 					Point sPrime = S.get(i);
