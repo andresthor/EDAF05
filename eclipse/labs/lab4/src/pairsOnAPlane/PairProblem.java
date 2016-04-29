@@ -125,23 +125,27 @@ public class PairProblem {
 			Pair<Point, Point> minPair = null;
 			Point mX = Px.get(midX);
 			Point mY = Py.get(midY); 
+			
+			// for all p in P
 			for (int i = 0; i < Py.size(); i++) {
 				Point current = Py.get(i);
-				if ((current.x - mX.x) < delta) {
-					int jMin = (i - 8 > 0) ? (i - 8) : 0;
+				if ((current.x - mX.x) < delta) {	// if closer to line than delta
+					
+					int jMin = (i - 8 > 0) ? (i - 8) : 0;	// go through 16 nearest...
 					int jMax = (i + 8 < Py.size()) ? (i + 8) : Py.size();
-					for (int j = jMin; j < jMax; j++) {
+					
+					for (int j = jMin; j < jMax; j++) {		// ...on the y-axis
 						if (j == i) continue;
+						
 						Point closePoint = Py.get(j);
 						double tmpDist = current.distanceTo(closePoint);
-						if (tmpDist < minDist) {
+						if (tmpDist < minDist) {			// are they the closest?
 							minDist = tmpDist;
 							minPair = new Pair<Point, Point>(current, closePoint);
 						}
 					}
 				}
 			}
-			
 			return (delta < minDist) ? closePair : minPair;
 		}
 	}
