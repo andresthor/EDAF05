@@ -1,1 +1,14 @@
 /bin/
+../.classpath
+../.project
+../lab1/bin/world_ladder/
+../lab3/data/output.txt
+../lab3/src/spanningUSA/OutputFiles/
+data/closest-pair-out.txt~
+output/
+.gitignore
+../.classpath
+../.project
+../lab1/bin/world_ladder/
+../lab3/data/output.txt
+../lab3/src/spanningUSA/OutputFiles/
