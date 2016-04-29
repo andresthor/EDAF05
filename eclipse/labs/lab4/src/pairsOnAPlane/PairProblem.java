@@ -61,15 +61,19 @@ public class PairProblem {
 		return closest;
 	}
 	
+	public int size() {
+		return entries.size();
+	}
+	
 	public double solveNaiveDist() {
 		return solveNaiveDist(entries);
 	}
 	
-	public double solveDivideConquer() {
+	public Pair<Point, Point> solveDivideConquer() {
 		ArrayList<Point> srtEntriesX = entries;
 		ArrayList<Point> srtEntriesY = entries;
 		
-		/* Sorts in acsending order */
+		/* Sorts in ascending order */
 		Collections.sort(srtEntriesX,new Comparator<Point>() {
 			public int compare(Point o1, Point o2) {
 				return Double.compare(o1.x, o2.x);
@@ -82,9 +86,12 @@ public class PairProblem {
 			}
 		});
 		
-		Pair<Point, Point> minPair = closestPoints(srtEntriesX, srtEntriesY);
-		double minDist = minPair.getKey().distanceTo(minPair.getValue());
-		return minDist; 
+		return closestPoints(srtEntriesX, srtEntriesY);
+	}
+	
+	public double solveDivideConquerDist() {
+		Pair<Point, Point> minPair = solveDivideConquer();
+		return minPair.getKey().distanceTo(minPair.getValue()); 
 	}
 	
 	/**

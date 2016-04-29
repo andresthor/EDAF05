@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,14 +21,28 @@ public class pairsOnAPlane {
 		/* Try to create a set of problems from the input files */
 		ArrayList<PairProblem> problems = readFiles(args);
 		
-		int i = 0;
+//		int i = 0;
+//		for (PairProblem p : problems) {
+//			System.out.printf("%d: ", ++i);
+//			System.out.printf(	"%s\nminDist = %f\n\n",
+//									p.name.equals("") ? p.file : p.name,
+//									p.solveNaiveDist());
+//		}
+		
 		for (PairProblem p : problems) {
-			System.out.println(p.solveDivideConquer());
-			System.out.printf("%d: ", ++i);
-			System.out.printf(	"%s\nminDist = %f\n\n",
-									p.name.equals("") ? p.file : p.name,
-									p.solveNaiveDist());
+			System.out.printf(	"%s: %d %s\n",
+									p.file,
+									p.size(),
+									fmt(p.solveDivideConquerDist()));
 		}
+	}
+	
+	public static String fmt(double d)
+	{
+		DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+		df.setMaximumFractionDigits(340); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
+
+		return df.format(d);
 	}
 
 	
