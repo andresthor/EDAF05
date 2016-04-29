@@ -82,7 +82,8 @@ public class PairProblem {
 			}
 		});
 		
-		double minDist = closestPoints(srtEntriesX, srtEntriesY);
+		Pair<Point, Point> minPair = closestPoints(srtEntriesX, srtEntriesY);
+		double minDist = minPair.getKey().distanceTo(minPair.getValue());
 		return minDist; 
 	}
 	
@@ -90,81 +91,51 @@ public class PairProblem {
 	 * Recursive method that splits list into two and checks closest points.
 	 * @param srtY 
 	 */
-	private double closestPoints(List<Point> srtX, List<Point> srtY) {
-		if (srtX.size() <= 3) {
-			return solveNaiveDist(srtX); // Does not matter which one
+	private Pair<Point, Point> closestPoints(List<Point> Px, List<Point> Py) {
+		if (Px.size() <= 3) {
+			return solveNaive(Px); // Does not matter which one
 		} else {
 			/* Split each into two parts. Head is smaller if odd size. */
-			int middleX = srtX.size() / 2;
-			int middleY = srtY.size() / 2;
-			List<Point> qX = srtX.subList(0, middleX);
-			List<Point> rX = srtX.subList(middleX, srtX.size());
-			List<Point> qY = srtY.subList(0, middleY);
-			List<Point> rY = srtY.subList(middleY, srtY.size());
+			int midX = Px.size() / 2;
+			int midY = Py.size() / 2;
+			List<Point> qX = Px.subList(0, midX);
+			List<Point> rX = Px.subList(midX, Px.size());
+			List<Point> qY = Py.subList(0, midY);
+			List<Point> rY = Py.subList(midY, Py.size());
 			
-			double minQ = closestPoints(qX, qY);
-			double minR = closestPoints(rX, rY);
+			Pair<Point, Point> qRes = closestPoints(qX, qY);
+			Pair<Point, Point> rRes = closestPoints(rX, rY);
 			
-			//smallest distance so far
+			double minQ = qRes.getKey().distanceTo(qRes.getValue());
+			double minR = rRes.getKey().distanceTo(rRes.getValue());
+			
+			// smallest distance so far
 			double delta = (minQ < minR) ? minQ : minR;
+			// closest pair so far
+			Pair<Point, Point> closePair = (minQ < minR) ? qRes : rRes;
 			
-			// Finds points on the dividing line, put into L
-			Point pMaxQ = qX.get(qX.size() - 1); //Points closest to line.
-			List<Point> L = new ArrayList<Point>(); // List with points on line. 
-			L.add(pMaxQ);
-			for (int i = qX.size()-2; i >= 0; i--) {
-				if (qX.get(i).compareTo(pMaxQ) == 0)
-					L.add(qX.get(i));
-			}
-			
-			// Points within delta distance of points on line, put into S.
-			List<Point> S = new ArrayList<Point>();
-			for (Point pLine : L) {
-				int indexY = srtY.indexOf(pLine);
-				
-				for (int i = indexY; i < srtY.size() -1 ; i++) {
-					Point pUp 	= srtY.get(i);
-					if (pUp.equals(pLine))
-						continue;
-					if (pUp.distanceTo(pLine) < delta)
-						S.add(pUp);
-					else 
-						break;
-				}
-				
-				for (int i = indexY-1; i >= 0; i--) {
-					Point pDn = srtY.get(i);
-					if (pDn.equals(pLine))
-						continue;
-					if (pDn.distanceTo(pLine) < delta)
-						S.add(pDn);
-					else 
-						break;
-				}
-			}
-			
-			// Sort by y coordinte, ascending.
-			Collections.sort(S,new Comparator<Point>() {
-				public int compare(Point o1, Point o2) {
-					return Double.compare(o1.y, o2.y);
-				}
-			});
-			
-			// Find distance between points in S, compare max 15. 
 			double minDist = inf;
-			for (Point s : S) {
-				for (int i = S.indexOf(s) + 1; i < S.indexOf(s) + 16; i++) {
-					if (i > S.size()-1)
-						break;
-					Point sPrime = S.get(i);
-					double thisDist = s.distanceTo(sPrime);
-					minDist = (minDist > thisDist) ? thisDist : minDist;
+			Pair<Point, Point> minPair = null;
+			Point mX = Px.get(midX);
+			Point mY = Py.get(midY); 
+			for (int i = 0; i < Py.size(); i++) {
+				Point current = Py.get(i);
+				if ((current.x - mX.x) < delta) {
+					int jMin = (i - 8 > 0) ? (i - 8) : 0;
+					int jMax = (i + 8 < Py.size()) ? (i + 8) : Py.size();
+					for (int j = jMin; j < jMax; j++) {
+						if (j == i) continue;
+						Point closePoint = Py.get(j);
+						double tmpDist = current.distanceTo(closePoint);
+						if (tmpDist < minDist) {
+							minDist = tmpDist;
+							minPair = new Pair<Point, Point>(current, closePoint);
+						}
+					}
 				}
 			}
 			
-			// Find minimum of right, left and over border. 
-			minDist = (minDist > delta) ? delta : minDist;
-			return minDist;
+			return (delta < minDist) ? closePair : minPair;
 		}
 	}
 
