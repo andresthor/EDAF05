@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.util.Pair;
+
 public class pairsOnAPlane {
 
 	public static void main(String[] args) {
@@ -34,6 +36,10 @@ public class pairsOnAPlane {
 									p.file,
 									p.size(),
 									fmt(p.solveDivideConquerDist()));
+	
+			//För att kolla wc-instance-*.txt
+			//Pair<Point, Point> tmp = p.solveDivideConquer();
+			//System.out.printf("(%.3f,%.3f) (%.3f,%.3f)\n", tmp.getKey().x, tmp.getKey().y, tmp.getValue().x, tmp.getValue().y);
 		}
 	}
 	
@@ -155,9 +161,13 @@ public class pairsOnAPlane {
 		 * a line that splits headers from data. If it's not there,
 		 * then most likely this file has no header
 		 */
-		br.mark(256);
+		br.mark(512);
 		for (int i = 0; i < 15; i++) {
 			String line = br.readLine();
+			if (line == null) {
+				br.reset();
+				return false;
+			}
 			if (line != null && line.equals("NODE_COORD_SECTION")) {
 				br.reset();
 				return true;

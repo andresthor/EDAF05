@@ -13,7 +13,7 @@ public class PairProblem {
 	protected String 	comment;
 	protected int		dim;
 	private static double inf = Double.POSITIVE_INFINITY;
-	private static int bW = 7; //bandWidth
+	private static int bW = 8; //bandWidth
 	
 	ArrayList<Point> entries;
 	
@@ -140,11 +140,11 @@ public class PairProblem {
 				Point current = Py.get(i);
 				if ((current.x - mX.x) < delta) {	// if closer to line than delta
 					
-					int jMin = (i - bW > 0) ? (i - bW) : 0;	// go through 16 nearest...
+					int jMin = (i - bW > 0) ? (i - bW) : 0;
 					int jMax = (i + bW < Py.size()) ? (i + bW) : Py.size();
 					
 					for (int j = jMin; j < jMax; j++) {		// ...on the y-axis
-						if (j == i) continue;
+						if (j == i) continue;	// do not check current node
 						
 						Point closePoint = Py.get(j);
 						double tmpDist = current.distanceTo(closePoint);
