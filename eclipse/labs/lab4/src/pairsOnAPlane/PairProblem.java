@@ -74,13 +74,14 @@ public class PairProblem {
 		ArrayList<Point> srtEntriesX = entries;
 		ArrayList<Point> srtEntriesY = entries;
 		
-		/* Sorts in ascending order */
+		/* Sorts in ascending order based on x-coordinates */
 		Collections.sort(srtEntriesX,new Comparator<Point>() {
 			public int compare(Point o1, Point o2) {
 				return Double.compare(o1.x, o2.x);
 			}
 		});
 		
+		/* Sorts in ascending order based on y-coordinates */
 		Collections.sort(srtEntriesY,new Comparator<Point>() {
 			public int compare(Point o1, Point o2) {
 				return Double.compare(o1.y, o2.y);
@@ -101,9 +102,11 @@ public class PairProblem {
 	 */
 	private Pair<Point, Point> closestPoints(List<Point> Px, List<Point> Py) {
 		if (Px.size() <= 3) {
-			return solveNaive(Px); // Does not matter which one
+			return solveNaive(Px); // Does not matter which one (Px or Py)
 		} else {
-			/* Split each into two parts. Head is smaller if odd size. */
+			/*  Split each into two parts. Head is smaller if odd size.
+			 *  q is the front half, r is the back half
+			 */
 			int midX = Px.size() / 2;
 			int midY = Py.size() / 2;
 			List<Point> qX = Px.subList(0, midX);
@@ -111,17 +114,22 @@ public class PairProblem {
 			List<Point> qY = Py.subList(0, midY);
 			List<Point> rY = Py.subList(midY, Py.size());
 			
+			/* Recursively divide further */
 			Pair<Point, Point> qRes = closestPoints(qX, qY);
 			Pair<Point, Point> rRes = closestPoints(rX, rY);
 			
+			/* Get the shortest paths from the divided subproblems */
 			double minQ = qRes.getKey().distanceTo(qRes.getValue());
 			double minR = rRes.getKey().distanceTo(rRes.getValue());
 			
-			// smallest distance so far
+			// The smallest distance so far is the smallest of the two above...
 			double delta = (minQ < minR) ? minQ : minR;
-			// closest pair so far
+			// ...this is then the closest pair so far
 			Pair<Point, Point> closePair = (minQ < minR) ? qRes : rRes;
 			
+			/*  Now we need to check "across the lines". So we use the "grid
+			 *  approach" and check the closest points
+			 */
 			double minDist = inf;
 			Pair<Point, Point> minPair = null;
 			Point mX = Px.get(midX);
